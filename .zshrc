@@ -78,4 +78,7 @@ fi
 zplug load --verbose
 
 autoload -U compinit; compinit
+autoload -Uz colors
+colors
 PROMPT='%{${fg[green]}%}[ %C %T ]%# '
+setopt prompt_subst
