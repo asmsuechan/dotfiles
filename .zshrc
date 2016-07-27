@@ -1,3 +1,11 @@
+if [ -e "${HOME}/.zplug" ]; then
+    . ~/.zplug/zplug
+
+    zplug "zsh-users/zsh-syntax-highlighting"
+
+    zplug load --verbose
+fi
+
 source ~/.zplug/zplug
 
 # 「ユーザ名/リポジトリ名」で記述し、ダブルクォートで見やすく括る（括らなくてもいい）
