@@ -82,3 +82,4 @@ autoload -Uz colors
 colors
 PROMPT='%{${fg[green]}%}[ %C %T ]%# '
 setopt prompt_subst
+setopt correct
