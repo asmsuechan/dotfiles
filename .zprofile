@@ -1,3 +1,6 @@
+PATH=/bin:/usr/bin:/usr/local/bin:${PATH}
+export PATH
+
 if $(command -v rbenv > /dev/null 2>&1);then
   eval "$(rbenv init -)"
   export PATH="$HOME/.rbenv/bin:$PATH"
