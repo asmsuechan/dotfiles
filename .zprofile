@@ -1,4 +1,5 @@
-PATH=/bin:/usr/bin:/usr/local/bin:${PATH}
+GOPATH=$HOME/go
+PATH=/bin:/usr/bin:/usr/local/bin:$GOPATH/bin:${PATH}
 export PATH
 
 if $(command -v rbenv > /dev/null 2>&1);then
