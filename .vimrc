@@ -129,5 +129,13 @@ if filereadable(expand('~/.vim/bundle/vim-go/templates/default.go'))
   let g:go_template_file = "default.go"
 endif
 
+"*.goファイルの保存時にgo fmtをかける
+function! _CheckGoCode()
+  let currentfile = getcwd() . '/' . expand('%')
+  exec ":silent ! go fmt " . currentfile
+endfunction
+command! CheckCode call _CheckGoCode()
+autocmd BufWrite *.go :CheckCode
+
 filetype plugin indent on
 set t_Co=256
