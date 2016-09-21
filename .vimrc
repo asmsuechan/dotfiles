@@ -80,7 +80,7 @@ NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'airblade/vim-gitgutter'
 NeoBundle 'cohama/agit.vim'
 NeoBundle 'Shougo/neocomplete.vim'
-"NeoBundle 'fatih/vim-go'
+NeoBundle 'fatih/vim-go'
 
 "----------各プラグインの説明----------
 "[vimfiler]=:VimFilerで起動するファイラー
@@ -122,6 +122,12 @@ NeoBundleCheck
 call neobundle#end()
 "=====neobundle end=====
 
+"vim-go用の設定
+"競プロ用テンプレートファイル
+"~/.vim/bundle/vim-go/templates/default.go
+if filereadable(expand('~/.vim/bundle/vim-go/templates/default.go'))
+  let g:go_template_file = "default.go"
+endif
 
 filetype plugin indent on
 set t_Co=256
