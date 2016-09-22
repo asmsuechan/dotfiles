@@ -135,7 +135,7 @@ function! _CheckGoCode()
   exec ":silent ! go fmt " . currentfile
 endfunction
 command! CheckCode call _CheckGoCode()
-autocmd BufWrite *.go :CheckCode
+autocmd BufWritePost *.go :CheckCode
 
 filetype plugin indent on
 set t_Co=256
