@@ -19,6 +19,10 @@ function choosable-rake () {
   fi
 }
 
+function clip_file () {
+  cat $1 | pbcopy
+}
+
 alias rake='bundle exec rake'
 alias rails='bundle exec rails'
 alias rr='bundle exec rake routes'
