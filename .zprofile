@@ -24,7 +24,7 @@ function clip_file () {
 }
 
 cdls () {
-  \cd "$@" && ls
+  \cd "$@" && ls -lah
 }
 
 alias rake='bundle exec rake'
