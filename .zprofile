@@ -23,6 +23,10 @@ function clip_file () {
   cat $1 | pbcopy
 }
 
+cdls () {
+  \cd "$@" && ls
+}
+
 alias rake='bundle exec rake'
 alias rails='bundle exec rails'
 alias rr='bundle exec rake routes'
@@ -48,3 +52,4 @@ alias fzf-vim='vim $(fzf)'
 alias rake-tasks='choosable-rake'
 alias la='ls -lah'
 alias ll='ls -lh'
+alias cd="cdls"

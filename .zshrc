@@ -32,19 +32,6 @@ zplug load --verbose
 zstyle ':completion:*:default' menu select=2
 zstyle ':completion:*' completer _expand _complete _match _prefix _approximate _list _history
 
-# vimっぽいキーバインドにする
-bindkey -v
-bindkey -M viins 'jj' vi-cmd-mode
-function zle-line-init zle-keymap-select {
-  VIM_NORMAL="%K{green}%F{black}%k%f%K{green}%F{189} % NORMAL %k%f%K{black}%F{green}%k%f"
-  VIM_INSERT="%K{240}%F{black}%k%f%K{240}%F{189} % INSERT %k%f%K{black}%F{240}%k%f"
-  RPS1="${${KEYMAP/vicmd/$VIM_NORMAL}/(main|viins)/$VIM_INSERT}"
-  RPS2=$RPS1
-  zle reset-prompt
-}
-zle -N zle-line-init
-zle -N zle-keymap-select
-
 # 補完候補のメニュー選択で、矢印キーの代わりにhjklで移動出来るようにする。
 zmodload zsh/complist
 bindkey -M menuselect 'h' vi-backward-char
@@ -66,7 +53,33 @@ setopt share_history
 
 autoload -U compinit; compinit
 autoload -Uz colors; colors
-PROMPT='%{${fg[green]}%}[ %C %T ]%# '
+
+# vimっぽいキーバインドにする
+terminfo_down_sc=$terminfo[cud1]$terminfo[cuu1]$terminfo[sc]$terminfo[cud1]
+function zle-line-init zle-keymap-select {
+    VIM_NORMAL="%K{green}%F{black}%k%f%K{green}%F{189} % -- NORMAL -- %k%f%K{black}%F{green}%k%f"
+    VIM_INSERT="%K{240}%F{black}%k%f%K{240}%F{189} % -- INSERT -- %k%f%K{black}%F{240}%k%f"
+    PS1_2="${${KEYMAP/vicmd/$VIM_NORMAL}/(main|viins)/$VIM_INSERT}"
+    PS1="%{$terminfo_down_sc$PS1_2$terminfo[rc]$fg[green]%}[ %C %T ]%# "
+    zle reset-prompt
+}
+preexec () { print -rn -- $terminfo[el]; }
+bindkey -v
+bindkey -M viins 'jj' vi-cmd-mode
+zle -N zle-line-init
+zle -N zle-keymap-select
+
+# gitブランチを表示する
+autoload -Uz vcs_info
+zstyle ':vcs_info:*' formats '[%b]'
+zstyle ':vcs_info:*' actionformats '[%b|%a]'
+precmd () {
+    psvar=()
+    LANG=en_US.UTF-8 vcs_info
+    [[ -n "$vcs_info_msg_0_" ]] && psvar[1]="$vcs_info_msg_0_"
+}
+RPROMPT="%1(v|%F{blue}%1v%f|)"
+
 # コマンドラインでも # 以降をコメントと見なす
 setopt INTERACTIVE_COMMENTS
 # 曖昧な補完で、自動的に選択肢をリストアップ
