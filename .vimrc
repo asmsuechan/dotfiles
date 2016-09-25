@@ -22,6 +22,8 @@ set laststatus=2
 "set statusline+=%=%l/%L,%c%V%8P
 "set statusline=%F%m%r%h%w
 
+"ビープ音を鳴らさない
+set visualbell t_vb=
 
 inoremap jj <ESC>
 "入力モード中に素早くjjと入力した場合はESCとみなす
