@@ -1,18 +1,18 @@
 set nocompatible
-set noswapfile
 "swapfileを作成しない
+set noswapfile
 set nobackup
 set writebackup
-set autoread
 "編集外でファイルの変更があった時、自動で更新
-set backspace=indent,eol,start
+set autoread
 "Backspaceキーの設定
-set whichwrap=b,s,h,l,<,>,[,]
+set backspace=indent,eol,start
 "行頭行末の左右移動で行をまたぐ
-set ruler
+set whichwrap=b,s,h,l,<,>,[,]
 "右下に表示される行、列の番号を表示する
-set showmatch
+set ruler
 "対応括弧をハイライト表示する
+set showmatch
 
 "ステータスラインの設定
 set laststatus=2
@@ -38,13 +38,15 @@ set termencoding=UTF-8
 "表示設定
 syntax on
 set title
-set number
-set expandtab
 "行番号の表示
-set shiftwidth=2
+set number
+if expand("%:e") !~ "go"
+  set expandtab
+endif
 "インデント幅=2
-set tabstop=2
+set shiftwidth=2
 "タブ文字幅=2
+set tabstop=2
 set autoindent
 "改行時に前のインデントを継続する
 autocmd BufWritePre * :%s/\t/  /ge
@@ -125,6 +127,11 @@ call neobundle#end()
 "=====neobundle end=====
 
 "vim-go用の設定
+"セーブ時にgo fmtを実行しない
+"=>:w打つたびにカーソルが移動してめんどくさいから
+"=>代わりに下で実装している
+let g:go_fmt_autosave = 0
+let g:go_fmt_fail_silently = 0
 "競プロ用テンプレートファイル
 "~/.vim/bundle/vim-go/templates/default.go
 if filereadable(expand('~/.vim/bundle/vim-go/templates/default.go'))
@@ -132,6 +139,8 @@ if filereadable(expand('~/.vim/bundle/vim-go/templates/default.go'))
 endif
 
 "*.goファイルの保存時にgo fmtをかける
+"コマンド打つ場所の高さを2行にする
+:set cmdheight=2
 function! _CheckGoCode()
   let currentfile = getcwd() . '/' . expand('%')
   exec ":silent ! go fmt " . currentfile
