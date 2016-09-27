@@ -85,6 +85,7 @@ NeoBundle 'airblade/vim-gitgutter'
 NeoBundle 'cohama/agit.vim'
 NeoBundle 'Shougo/neocomplete.vim'
 NeoBundle 'fatih/vim-go'
+NeoBundle 'mattn/vim-sonots'
 
 "----------各プラグインの説明----------
 "[vimfiler]=:VimFilerで起動するファイラー
