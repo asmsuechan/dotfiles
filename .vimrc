@@ -13,6 +13,8 @@ set whichwrap=b,s,h,l,<,>,[,]
 set ruler
 "対応括弧をハイライト表示する
 set showmatch
+" 行を強調表示
+"set cursorline
 
 "ステータスラインの設定
 set laststatus=2
@@ -50,6 +52,9 @@ set tabstop=2
 set autoindent
 "改行時に前のインデントを継続する
 autocmd BufWritePre * :%s/\t/  /ge
+
+"スペース+.で.vimrcを開くようにする
+"nnoremap <Space>. :<C-u>tabedit $HOME/.vimrc<CR>
 
 "カラースキーマ
 "colorscheme molokai
@@ -151,6 +156,10 @@ function! _CheckGoCode()
 endfunction
 command! CheckCode call _CheckGoCode()
 autocmd BufWritePost *.go :CheckCode
+
+"markdown用の設定
+autocmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} set filetype=markdown
+autocmd BufNewFile,BufRead ISSUE_EDITMSG set filetype=markdown
 
 filetype plugin indent on
 set t_Co=256

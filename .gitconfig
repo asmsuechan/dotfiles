@@ -4,6 +4,7 @@
 
 [alias]
   cancel = reset --soft HEAD^
+  vim = !vim
 
 [tig "bind"]
   generic = g move-first-line
