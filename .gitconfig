@@ -1,0 +1,10 @@
+[user]
+  name = asmsuechan
+  email = suenagaryoutaabc@gmail.com
+
+[alias]
+  cancel = reset --soft HEAD^
+
+[tig "bind"]
+  generic = g move-first-line
+  generic = G move-last-line
