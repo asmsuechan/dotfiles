@@ -27,10 +27,10 @@ set visualbell t_vb=
 
 inoremap jj <ESC>
 "入力モード中に素早くjjと入力した場合はESCとみなす
-vnoremap v $h                            
+vnoremap v $h
 
 "文字コードをUTF-8にする
-set encoding=UTF-8  
+set encoding=UTF-8
 set fileencoding=UTF-8
 set termencoding=UTF-8
 
@@ -57,6 +57,8 @@ let g:molokai_original = 1
 let g:rehash256 = 1
 set background=dark
 
+imap <C-i> <nop>
+set pastetoggle=<C-i>
 
 if !isdirectory(expand("~/.vim/bundle/neobundle.vim/"))
     echo "install neobundle..."
@@ -86,6 +88,7 @@ NeoBundle 'cohama/agit.vim'
 NeoBundle 'Shougo/neocomplete.vim'
 NeoBundle 'fatih/vim-go'
 NeoBundle 'mattn/vim-sonots'
+NeoBundle 'bronson/vim-trailing-whitespace'
 
 "----------各プラグインの説明----------
 "[vimfiler]=:VimFilerで起動するファイラー
