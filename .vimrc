@@ -94,6 +94,9 @@ NeoBundle 'Shougo/neocomplete.vim'
 NeoBundle 'fatih/vim-go'
 NeoBundle 'mattn/vim-sonots'
 NeoBundle 'bronson/vim-trailing-whitespace'
+NeoBundle 'Shougo/neocomplcache'
+NeoBundle 'Shougo/neosnippet'
+NeoBundle 'Shougo/neosnippet-snippets'
 
 "----------各プラグインの説明----------
 "[vimfiler]=:VimFilerで起動するファイラー
@@ -158,8 +161,12 @@ command! CheckCode call _CheckGoCode()
 autocmd BufWritePost *.go :CheckCode
 
 "markdown用の設定
-autocmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} set filetype=markdown
-autocmd BufNewFile,BufRead ISSUE_EDITMSG set filetype=markdown
+autocmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} set filetype=markdown autocmd BufNewFile,BufRead ISSUE_EDITMSG set filetype=markdown
+
+"snippets用の設定
+imap <C-k> <Plug>(neosnippet_expand_or_jump)
+smap <C-k> <Plug>(neosnippet_expand_or_jump)
+xmap <C-k> <Plug>(neosnippet_expand_target)
 
 filetype plugin indent on
 set t_Co=256
