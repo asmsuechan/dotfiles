@@ -97,6 +97,7 @@ NeoBundle 'bronson/vim-trailing-whitespace'
 NeoBundle 'Shougo/neocomplcache'
 NeoBundle 'Shougo/neosnippet'
 NeoBundle 'Shougo/neosnippet-snippets'
+NeoBundle 'mattn/sonictemplate-vim'
 
 "----------各プラグインの説明----------
 "[vimfiler]=:VimFilerで起動するファイラー
@@ -167,6 +168,11 @@ autocmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} set filetype=markdown auto
 imap <C-k> <Plug>(neosnippet_expand_or_jump)
 smap <C-k> <Plug>(neosnippet_expand_or_jump)
 xmap <C-k> <Plug>(neosnippet_expand_target)
+
+"sonictemplate-vim用の設定
+let g:sonictemplate_vim_template_dir = [
+      \ '~/dotfiles/templates'
+      \]
 
 filetype plugin indent on
 set t_Co=256
