@@ -168,6 +168,7 @@ autocmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} set filetype=markdown auto
 imap <C-k> <Plug>(neosnippet_expand_or_jump)
 smap <C-k> <Plug>(neosnippet_expand_or_jump)
 xmap <C-k> <Plug>(neosnippet_expand_target)
+let g:neosnippet#snippets_directory='~/dotfiles/snippets/'
 
 "sonictemplate-vim用の設定
 let g:sonictemplate_vim_template_dir = [
