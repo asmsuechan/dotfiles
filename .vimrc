@@ -143,7 +143,7 @@ call neobundle#end()
 "セーブ時にgo fmtを実行しない
 "=>:w打つたびにカーソルが移動してめんどくさいから
 "=>代わりに下で実装している
-let g:go_fmt_autosave = 0
+"let g:go_fmt_autosave = 0
 let g:go_fmt_fail_silently = 0
 "競プロ用テンプレートファイル
 "~/.vim/bundle/vim-go/templates/default.go
