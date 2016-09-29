@@ -62,8 +62,8 @@ let g:molokai_original = 1
 let g:rehash256 = 1
 set background=dark
 
-imap <C-i> <nop>
-set pastetoggle=<C-i>
+imap <C-j> <nop>
+set pastetoggle=<C-j>
 
 if !isdirectory(expand("~/.vim/bundle/neobundle.vim/"))
     echo "install neobundle..."
