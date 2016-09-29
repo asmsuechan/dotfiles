@@ -179,7 +179,6 @@ let g:neosnippet#snippets_directory='~/dotfiles/snippets/'
 let g:sonictemplate_vim_template_dir = [
       \ '~/dotfiles/templates'
       \]
-=======
 "js用の設定
 "vuejsはhtmlのシンタックスハイライトにする
 autocmd BufNewFile,BufRead *.{html,htm,vue*} set filetype=html
