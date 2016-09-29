@@ -98,6 +98,11 @@ NeoBundle 'Shougo/neocomplcache'
 NeoBundle 'Shougo/neosnippet'
 NeoBundle 'Shougo/neosnippet-snippets'
 NeoBundle 'mattn/sonictemplate-vim'
+"NeoBundle 'darthmall/vim-vue'
+NeoBundleLazy 'jelera/vim-javascript-syntax',{'autoload':{'filetypes':['javascript']}}
+NeoBundle 'kchmck/vim-coffee-script'
+NeoBundle 'Chiel92/vim-autoformat'
+NeoBundle 'mattn/emmet-vim'
 
 "----------各プラグインの説明----------
 "[vimfiler]=:VimFilerで起動するファイラー
@@ -174,6 +179,10 @@ let g:neosnippet#snippets_directory='~/dotfiles/snippets/'
 let g:sonictemplate_vim_template_dir = [
       \ '~/dotfiles/templates'
       \]
+=======
+"js用の設定
+"vuejsはhtmlのシンタックスハイライトにする
+autocmd BufNewFile,BufRead *.{html,htm,vue*} set filetype=html
 
 filetype plugin indent on
 set t_Co=256
