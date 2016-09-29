@@ -2,6 +2,9 @@
   name = asmsuechan
   email = suenagaryoutaabc@gmail.com
 
+[core]
+  editor = /usr/bin/vim
+
 [alias]
   cancel = reset --soft HEAD^
   vim = !vim
