@@ -158,7 +158,7 @@ endif
 
 "*.goファイルの保存時にgo fmtをかける
 "コマンド打つ場所の高さを2行にする
-:set cmdheight=2
+set cmdheight=2
 function! _CheckGoCode()
   let currentfile = getcwd() . '/' . expand('%')
   exec ":silent ! go fmt " . currentfile
