@@ -27,6 +27,14 @@ function cdls () {
   \cd "$@" && ls -lah
 }
 
+# 現在の変更を1つ前のコミットと結合する
+function gcommit-and-fixup(){
+  git add .
+  git commit --fixup=HEAD
+  git rebase -i --autosquash origin
+  tig
+}
+
 # rails系のalias
 alias rake='bundle exec rake'
 alias rails='bundle exec rails'

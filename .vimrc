@@ -184,5 +184,17 @@ let g:sonictemplate_vim_template_dir = [
 "vuejsはhtmlのシンタックスハイライトにする
 autocmd BufNewFile,BufRead *.{html,htm,vue*} set filetype=html
 
+"gcommit-and-fixup用の設定
+"自動で上書き保存して閉じる
+function AutoSaveIfRebaseFixup()
+  if match(getline(2), "fixup") == 0
+    exec ":wq"
+  endif
+endfunction
+
+if expand("%:t:r") == 'git-rebase-todo' && match(getline(2), "fixup")
+  autocmd BufNewFile,BufRead git-rebase-todo call AutoSaveIfRebaseFixup()
+endif
+
 filetype plugin indent on
 set t_Co=256
