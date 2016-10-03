@@ -27,12 +27,18 @@ function cdls () {
   \cd "$@" && ls -lah
 }
 
+function execIfCommandExists () {
+  if type $1 2>/dev/null 1>/dev/null;then
+    $1
+  fi
+}
+
 # 現在の変更を1つ前のコミットと結合する
 function gcommit-and-fixup(){
   git add .
   git commit --fixup=HEAD
   git rebase -i --autosquash origin
-  tig
+  execIfCommandExists tig
 }
 
 # rails系のalias
