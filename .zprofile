@@ -33,6 +33,13 @@ function execIfCommandExists () {
   fi
 }
 
+function force-push () {
+  CURRENTBRANCH=$(git rev-parse --abbrev-ref HEAD)
+  if [[ $CURRENTBRANCH != 'develop' && $CURRENTBRANCH != 'master' ]];then
+    git push -f origin HEAD
+  fi
+}
+
 # 現在の変更を1つ前のコミットと結合する
 function gcommit-and-fixup(){
   git add .
@@ -65,7 +72,7 @@ alias push-f='git push -f origin'
 alias branch='git branch'
 alias commit='git commit'
 alias blame='git blame'
-alias force-push='git push -f origin HEAD'
+alias force-push-to-my-repo='git push -f origin HEAD'
 
 alias fzf-vim='vim $(fzf)'
 alias tailf='tail -f'
