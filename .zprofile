@@ -37,7 +37,7 @@ function execIfCommandExists () {
 function gcommit-and-fixup(){
   git add .
   git commit --fixup=HEAD
-  git rebase -i --autosquash origin
+  git rebase -i --autosquash HEAD^^
   execIfCommandExists tig
 }
 
