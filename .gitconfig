@@ -3,7 +3,7 @@
   email = suenagaryoutaabc@gmail.com
 
 [core]
-  editor=: git rebase -i --autosquash HEAD^^
+  editor=/usr/local/bin/vim
 
 [alias]
   cancel = reset --soft HEAD^

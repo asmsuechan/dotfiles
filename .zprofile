@@ -37,6 +37,8 @@ function force-push () {
   CURRENTBRANCH=$(git rev-parse --abbrev-ref HEAD)
   if [[ $CURRENTBRANCH != 'develop' && $CURRENTBRANCH != 'master' ]];then
     git push -f origin HEAD
+  else
+    echo "your current branch is $CURRENTBRANCH, so you cannot force push by this command"
   fi
 }
 
@@ -57,6 +59,7 @@ alias rials='rails'
 alias rspec='bundle exec rspec'
 alias rcon='rails console'
 alias rake-tasks='choosable-rake'
+alias annotate='bundle exec annotate -i'
 
 # git系のalias
 alias gcommit='git commit -m'
