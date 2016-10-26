@@ -44,7 +44,6 @@ function force-push () {
 
 # 現在の変更を1つ前のコミットと結合する
 function gcommit-and-fixup(){
-  git add .
   git commit --fixup=HEAD
   git rebase -i --autosquash HEAD^^
   execIfCommandExists tig
