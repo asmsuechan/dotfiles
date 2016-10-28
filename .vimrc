@@ -15,6 +15,8 @@ set ruler
 set showmatch
 " 行を強調表示
 "set cursorline
+"yankをクリップボードにも書き込む(macvim)
+set clipboard=unnamed
 
 "ステータスラインの設定
 set laststatus=2
@@ -195,6 +197,9 @@ endfunction
 if expand("%:t:r") == 'git-rebase-todo' && match(getline(2), "fixup")
   autocmd BufNewFile,BufRead git-rebase-todo call AutoSaveIfRebaseFixup()
 endif
+
+"ヴィジュアルモードでCtl+cしたらクリップボードにコピーされるよう設定
+map <C-c> :!pbcopy;pbpaste<CR><CR>
 
 filetype plugin indent on
 set t_Co=256
