@@ -49,6 +49,10 @@ function gcommit-and-fixup(){
   execIfCommandExists tig
 }
 
+function git-grep-exept-long-line() {
+  git grep -e $1 --and -e "^.\{0,80\}$"
+}
+
 # rails系のalias
 alias rake='bundle exec rake'
 alias rails='bundle exec rails'
@@ -82,3 +86,9 @@ alias la='ls -lah'
 alias ll='ls -lh'
 alias cd='cdls'
 alias emacs='vim'
+
+alias docker-composer='docker-compose'
+alias dc='docker-compose'
+alias dcbashrails='docker-compose run rails bash'
+alias dcrails='docker-compose run rails'
+alias dcbuild='docker-compose build'
