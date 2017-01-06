@@ -7,9 +7,12 @@ if $(command -v rbenv > /dev/null 2>&1);then
   export PATH="$HOME/.rbenv/bin:$PATH"
 fi
 
-if $(command -v dinghy > /dev/null 2>&1);then
-  eval $(dinghy env)
+if $(command -v nodenv > /dev/null 2>&1);then
+  export PATH="$HOME/.nodenv/bin:$PATH"
+  eval "$(nodenv init -)"
 fi
+
+export PATH=/Applications/Postgres.app/Contents/Versions/latest/bin:$PATH
 
 function choosable-rake () {
   RAKETASK=$(rake -D | grep '^rake ' | peco)
@@ -79,6 +82,8 @@ alias branch='git branch'
 alias commit='git commit'
 alias blame='git blame'
 alias force-push-to-my-repo='git push -f origin HEAD'
+alias fetch='git fetch'
+alias merge='git merge'
 
 alias fzf-vim='vim $(fzf)'
 alias tailf='tail -f'
@@ -92,3 +97,5 @@ alias dc='docker-compose'
 alias dcbashrails='docker-compose run rails bash'
 alias dcrails='docker-compose run rails'
 alias dcbuild='docker-compose build'
+alias dcbashweb='docker-compose run web bash'
+alias dcweb='docker-compose run web'
