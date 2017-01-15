@@ -84,6 +84,7 @@ alias blame='git blame'
 alias force-push-to-my-repo='git push -f origin HEAD'
 alias fetch='git fetch'
 alias merge='git merge'
+alias revert='git revert'
 
 alias fzf-vim='vim $(fzf)'
 alias tailf='tail -f'
