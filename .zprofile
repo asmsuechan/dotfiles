@@ -12,6 +12,10 @@ if $(command -v nodenv > /dev/null 2>&1);then
   eval "$(nodenv init -)"
 fi
 
+if $(command -v dinghy > /dev/null 2>&1);then
+  eval $(dinghy env)
+fi
+
 export PATH=/Applications/Postgres.app/Contents/Versions/latest/bin:$PATH
 
 function choosable-rake () {
@@ -80,6 +84,7 @@ alias stash='git stash'
 alias push-f='git push -f origin'
 alias branch='git branch'
 alias commit='git commit'
+alias comit='git commit'
 alias blame='git blame'
 alias force-push-to-my-repo='git push -f origin HEAD'
 alias fetch='git fetch'
@@ -100,3 +105,4 @@ alias dcrails='docker-compose run rails'
 alias dcbuild='docker-compose build'
 alias dcbashweb='docker-compose run web bash'
 alias dcweb='docker-compose run web'
+alias docker-kill-all='docker kill `docker ps -q` && docker rmi -f `docker images -q`'
