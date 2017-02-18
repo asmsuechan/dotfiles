@@ -60,6 +60,15 @@ function git-grep-exept-long-line() {
   git grep -e $1 --and -e "^.\{0,80\}$"
 }
 
+# arg style: asmsuechan:Boostnote
+function checkout-another-remote-branch() {
+  IFS=':'
+  read -r NAME BRANCH <<< $1
+  git remote add $NAME https://github.com/$NAME/Boostnote.git
+  git fetch $NAME
+  git checkout $BRANCH
+}
+
 # rails系のalias
 alias rake='bundle exec rake'
 alias rails='bundle exec rails'

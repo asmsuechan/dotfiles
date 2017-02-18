@@ -105,6 +105,7 @@ NeoBundleLazy 'jelera/vim-javascript-syntax',{'autoload':{'filetypes':['javascri
 NeoBundle 'kchmck/vim-coffee-script'
 NeoBundle 'Chiel92/vim-autoformat'
 NeoBundle 'mattn/emmet-vim'
+NeoBundle 'tpope/vim-fugitive'
 
 "----------各プラグインの説明----------
 "[vimfiler]=:VimFilerで起動するファイラー
@@ -160,7 +161,7 @@ endif
 
 "*.goファイルの保存時にgo fmtをかける
 "コマンド打つ場所の高さを2行にする
-set cmdheight=2
+"set cmdheight=2
 function! _CheckGoCode()
   let currentfile = getcwd() . '/' . expand('%')
   exec ":silent ! go fmt " . currentfile
@@ -200,6 +201,12 @@ endif
 
 "ヴィジュアルモードでCtl+cしたらクリップボードにコピーされるよう設定
 map <C-c> :!pbcopy;pbpaste<CR><CR>
+
+"vim起動時は常にNERDTreeを表示する
+autocmd VimEnter * execute 'NERDTree'
+
+" NERDTreeで隠しファイルを常に表示する
+let NERDTreeShowHidden = 1
 
 filetype plugin indent on
 set t_Co=256
