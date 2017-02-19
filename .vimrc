@@ -208,5 +208,22 @@ autocmd VimEnter * execute 'NERDTree'
 " NERDTreeで隠しファイルを常に表示する
 let NERDTreeShowHidden = 1
 
+"NERDTree起動時にブックマークを表示する
+let NERDTreeShowBookmarks=1
+
+"デフォルトでツリーを表示させる
+let g:nerdtree_tabs_open_on_console_startup=1
+
+"他のバッファをすべて閉じた時にNERDTreeが開いていたらNERDTreeも一緒に閉じる。
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+"NERDTreeを新しいタブを開いた時も開きっぱなしにする
+"'jistr/vim-nerdtree-tabs'だと閉じる時にNERDTreeのサイズが変わってしまって使いにくかったので
+autocmd BufWinEnter * NERDTreeMirror
+
+nnoremap <C-n> gt
+nnoremap <C-p> gT
+nnoremap <C-c> :tabclose<CR>
+
 filetype plugin indent on
 set t_Co=256
