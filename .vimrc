@@ -106,6 +106,8 @@ NeoBundle 'kchmck/vim-coffee-script'
 NeoBundle 'Chiel92/vim-autoformat'
 NeoBundle 'mattn/emmet-vim'
 NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'tyru/open-browser-github.vim'
+NeoBundle 'tyru/open-browser.vim'
 
 "----------各プラグインの説明----------
 "[vimfiler]=:VimFilerで起動するファイラー
@@ -221,9 +223,16 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 "'jistr/vim-nerdtree-tabs'だと閉じる時にNERDTreeのサイズが変わってしまって使いにくかったので
 autocmd BufWinEnter * NERDTreeMirror
 
-nnoremap <C-n> gt
-nnoremap <C-p> gT
+nnoremap <C-p> gt
+nnoremap <C-n> gT
 nnoremap <C-c> :tabclose<CR>
+nnoremap <C-o> :OpenGithubFile<CR>
+
+set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
+
+"新しいタブを開いたときなどにカーソルをファイルの方にする
+autocmd VimEnter * NERDTree
+autocmd VimEnter * wincmd p
 
 filetype plugin indent on
 set t_Co=256

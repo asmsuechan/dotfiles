@@ -69,6 +69,10 @@ function checkout-another-remote-branch() {
   git checkout $BRANCH
 }
 
+function history-peco() {
+  `history 1 | sed 's/^ *[0-9]* *//' | peco`
+}
+
 # rails系のalias
 alias rake='bundle exec rake'
 alias rails='bundle exec rails'
@@ -116,3 +120,4 @@ alias dcbashweb='docker-compose run web bash'
 alias dcweb='docker-compose run web'
 alias docker-kill-all='docker kill `docker ps -q`'
 alias docker-rm-all='docker rmi -f `docker images -q`'
+alias dcup='docker-compose up'
