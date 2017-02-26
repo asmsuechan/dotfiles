@@ -70,7 +70,7 @@ function checkout-another-remote-branch() {
 }
 
 function history-peco() {
-  `history 1 | sed 's/^ *[0-9]* *//' | peco`
+  print -z `history 1 | sed 's/^ *[0-9]* *//' | peco`
 }
 
 # rails系のalias
