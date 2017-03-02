@@ -18,6 +18,10 @@ fi
 
 export PATH=/Applications/Postgres.app/Contents/Versions/latest/bin:$PATH
 
+export ANDROID_HOME=${HOME}/Library/Android/sdk
+export PATH=${PATH}:${ANDROID_HOME}/tools
+export PATH=${PATH}:${ANDROID_HOME}/platform-tools
+
 function choosable-rake () {
   RAKETASK=$(rake -D | grep '^rake ' | peco)
   if [ -n "$RAKETASK" ];then
