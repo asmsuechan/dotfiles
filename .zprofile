@@ -64,11 +64,13 @@ function git-grep-exept-long-line() {
   git grep -e $1 --and -e "^.\{0,80\}$"
 }
 
-# arg style: asmsuechan:Boostnote
+# arg style: <REPO_NAME> <USER_NAME>:<BRANCH_NAME>
+# Boostnote asmsuechan:Boostnote
 function checkout-another-remote-branch() {
+  REPONAME=ever2boost
   IFS=':'
-  read -r NAME BRANCH <<< $1
-  git remote add $NAME https://github.com/$NAME/Boostnote.git
+  read -r NAME BRANCH <<< $2
+  git remote add $NAME https://github.com/$NAME/$1.git
   git fetch $NAME
   git checkout $BRANCH
 }
