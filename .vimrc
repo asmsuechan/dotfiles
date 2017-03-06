@@ -17,6 +17,12 @@ set showmatch
 "set cursorline
 "yankをクリップボードにも書き込む(macvim)
 set clipboard=unnamed
+"検索結果をハイライト表示する
+set hlsearch
+"マウス操作を有効にする
+set mouse=a
+"OSのクリップボードを使う
+set clipboard=unnamed
 
 "ステータスラインの設定
 set laststatus=2
@@ -108,6 +114,9 @@ NeoBundle 'mattn/emmet-vim'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'tyru/open-browser-github.vim'
 NeoBundle 'tyru/open-browser.vim'
+NeoBundle 'scrooloose/syntastic'
+" " カラースキーマの選択
+NeoBundle 'ujihisa/unite-colorscheme'
 
 "----------各プラグインの説明----------
 "[vimfiler]=:VimFilerで起動するファイラー
@@ -233,6 +242,16 @@ set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
 "新しいタブを開いたときなどにカーソルをファイルの方にする
 autocmd VimEnter * NERDTree
 autocmd VimEnter * wincmd p
+
+"シンタックスチェク
+"'scrooloose/syntastic'の設定
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+command Reek SyntasticCheck reek
 
 filetype plugin indent on
 set t_Co=256

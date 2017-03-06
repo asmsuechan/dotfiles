@@ -10,6 +10,7 @@ zplug "plugins/git", from:oh-my-zsh
 zplug "tj/n", hook-build:"make install"
 zplug "b4b4r07/enhancd", at:v1
 zplug "mollifier/anyframe", at:4c23cb60
+zplug "b4b4r07/emoji-cli"
 zplug "b4b4r07/79ee61f7c140c63d2786", \
     from:gist, \
     as:command, \
