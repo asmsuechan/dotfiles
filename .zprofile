@@ -2,6 +2,8 @@ GOPATH=$HOME/go/bin
 PATH=/bin:/usr/bin:/usr/local/bin:$GOPATH/bin:${PATH}
 export PATH
 
+eval "$(direnv hook zsh)"
+
 if $(command -v rbenv > /dev/null 2>&1);then
   eval "$(rbenv init -)"
   export PATH="$HOME/.rbenv/bin:$PATH"
@@ -127,3 +129,6 @@ alias dcweb='docker-compose run web'
 alias docker-kill-all='docker kill `docker ps -q`'
 alias docker-rm-all='docker rmi -f `docker images -q`'
 alias dcup='docker-compose up'
+
+alias python='docker run -it -v `pwd`/:/src -w /src -e PYTHONPATH="/src/.pip" python python'
+alias 'pip-install'='docker run -it -v `pwd`/:/src -w /src python pip install --target=/src/.pip'
