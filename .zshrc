@@ -87,3 +87,6 @@ setopt INTERACTIVE_COMMENTS
 setopt AUTO_LIST
 setopt prompt_subst
 setopt correct
+
+# added by travis gem
+[ -f $HOME/.travis/travis.sh ] && source $HOME/.travis/travis.sh
