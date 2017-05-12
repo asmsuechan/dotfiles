@@ -95,7 +95,6 @@ alias annotate='bundle exec annotate -i'
 # git系のalias
 alias gcommit='git commit -m'
 alias gco='git checkout'
-alias gche='git checkout'
 alias checkout='git checkout'
 alias pull='git pull'
 alias pull-rebase='git pull --rebase'
