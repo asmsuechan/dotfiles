@@ -114,7 +114,7 @@ NeoBundle 'mattn/emmet-vim'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'tyru/open-browser-github.vim'
 NeoBundle 'tyru/open-browser.vim'
-NeoBundle 'scrooloose/syntastic'
+"NeoBundle 'scrooloose/syntastic'
 " " カラースキーマの選択
 NeoBundle 'ujihisa/unite-colorscheme'
 
@@ -245,13 +245,14 @@ autocmd VimEnter * wincmd p
 
 "シンタックスチェク
 "'scrooloose/syntastic'の設定
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-command Reek SyntasticCheck reek
+"vueでうまく効かないしよくvimが落ちるようになったので一時的にコメントアウト
+"set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%*
+"
+"let g:syntastic_always_populate_loc_list = 1
+"let g:syntastic_auto_loc_list = 1
+"command Reek SyntasticCheck reek
 
 filetype plugin indent on
 set t_Co=256
