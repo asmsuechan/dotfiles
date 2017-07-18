@@ -14,10 +14,6 @@ if $(command -v nodenv > /dev/null 2>&1);then
   eval "$(nodenv init -)"
 fi
 
-if $(command -v dinghy > /dev/null 2>&1);then
-  eval $(dinghy env)
-fi
-
 export PATH=/Applications/Postgres.app/Contents/Versions/latest/bin:$PATH
 
 export ANDROID_HOME=${HOME}/Library/Android/sdk
