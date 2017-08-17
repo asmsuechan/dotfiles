@@ -2,7 +2,9 @@ GOPATH=$HOME/go
 PATH=/bin:/usr/bin:/usr/local/bin:$GOPATH/bin:${PATH}
 export PATH
 
-eval "$(direnv hook zsh)"
+if $(command -v direnv > /dev/null 2>&1);then
+  eval "$(direnv hook zsh)"
+fi
 
 if $(command -v rbenv > /dev/null 2>&1);then
   eval "$(rbenv init -)"
