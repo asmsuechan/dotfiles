@@ -1,5 +1,5 @@
 GOPATH=$HOME/go
-PATH=/bin:/usr/bin:/usr/local/bin:$GOPATH/bin:${PATH}
+PATH=/bin:/usr/bin:/usr/local/bin:$HOME/.rbenv/bin:$GOPATH/bin:${PATH}
 export PATH
 
 if $(command -v direnv > /dev/null 2>&1);then
