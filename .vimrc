@@ -50,6 +50,7 @@ syntax on
 set title
 "行番号の表示
 set number
+"goではタブをスペースに変換しない
 if expand("%:e") !~ "go"
   set expandtab
 endif
@@ -59,7 +60,8 @@ set shiftwidth=2
 set tabstop=2
 set autoindent
 "改行時に前のインデントを継続する
-autocmd BufWritePre * :%s/\t/  /ge
+"goのファイルで保存した時にカーソルが移動する原因はこいつだったのでコメントイン
+"autocmd BufWritePre * :%s/\t/  /ge
 
 "スペース+.で.vimrcを開くようにする
 "nnoremap <Space>. :<C-u>tabedit $HOME/.vimrc<CR>
@@ -173,12 +175,13 @@ endif
 "*.goファイルの保存時にgo fmtをかける
 "コマンド打つ場所の高さを2行にする
 "set cmdheight=2
-function! _CheckGoCode()
-  let currentfile = getcwd() . '/' . expand('%')
-  exec ":silent ! go fmt " . currentfile
-endfunction
-command! CheckCode call _CheckGoCode()
-autocmd BufWritePost *.go :CheckCode
+"function! _CheckGoCode()
+"  let currentfile = getcwd() . '/' . expand('%')
+"  exec ":silent ! go fmt " . currentfile
+"endfunction
+"command! CheckCode call _CheckGoCode()
+"autocmd BufWritePost *.go :CheckCode
+"let g:go_fmt_command = "goimports"
 
 "markdown用の設定
 autocmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} set filetype=markdown
@@ -235,7 +238,7 @@ autocmd BufWinEnter * NERDTreeMirror
 nnoremap <C-p> gt
 nnoremap <C-n> gT
 nnoremap <C-c> :tabclose<CR>
-nnoremap <C-o> :OpenGithubFile<CR>
+"nnoremap <C-o> :OpenGithubFile<CR>
 
 set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
 
