@@ -3,7 +3,7 @@
   email = suenagaryoutaabc@gmail.com
 
 [core]
-  editor=/usr/bin/vim
+  editor=/usr/local/bin/vim
 
 [alias]
   cancel = reset --soft HEAD^
