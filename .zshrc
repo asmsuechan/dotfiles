@@ -27,7 +27,7 @@ if ! zplug check --verbose; then
     fi
 fi
 
-zplug load --verbose
+zplug load
 
 # ディレクトリ移動時いい感じに表示してキーで移動できるようになる
 zstyle ':completion:*:default' menu select=2
@@ -42,7 +42,7 @@ function zle-line-init zle-keymap-select {
     VIM_NORMAL="%K{green}%F{black}%k%f%K{green}%F{189} % -- NORMAL -- %k%f%K{black}%F{green}%k%f"
     VIM_INSERT="%K{240}%F{black}%k%f%K{240}%F{189} % -- INSERT -- %k%f%K{black}%F{240}%k%f"
     PS1_2="${${KEYMAP/vicmd/$VIM_NORMAL}/(main|viins)/$VIM_INSERT}"
-    PS1="%{$terminfo_down_sc$PS1_2$terminfo[rc]$fg[green]%}[ %C %T ]%# "
+    PS1="%{$terminfo_down_sc$PS1_2$terminfo[rc]$fg[green]%} > $ "
     zle reset-prompt
 }
 preexec () { print -rn -- $terminfo[el]; }

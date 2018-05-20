@@ -67,7 +67,11 @@ set autoindent
 "nnoremap <Space>. :<C-u>tabedit $HOME/.vimrc<CR>
 
 "カラースキーマ
-"colorscheme molokai
+" colorscheme molokai
+colorscheme jellybeans
+" colorscheme happy_hacking
+" colorscheme perun
+" colorscheme blue-mood
 let g:molokai_original = 1
 let g:rehash256 = 1
 set background=dark
@@ -119,6 +123,8 @@ NeoBundle 'tyru/open-browser.vim'
 "NeoBundle 'scrooloose/syntastic'
 " " カラースキーマの選択
 NeoBundle 'ujihisa/unite-colorscheme'
+NeoBundle 'sophacles/vim-processing'
+NeoBundle 'jistr/vim-nerdtree-tabs'
 
 "----------各プラグインの説明----------
 "[vimfiler]=:VimFilerで起動するファイラー
