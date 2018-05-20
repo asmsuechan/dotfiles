@@ -68,10 +68,11 @@ set autoindent
 
 "カラースキーマ
 " colorscheme molokai
-colorscheme jellybeans
+" colorscheme jellybeans
 " colorscheme happy_hacking
 " colorscheme perun
 " colorscheme blue-mood
+colorscheme hybrid
 let g:molokai_original = 1
 let g:rehash256 = 1
 set background=dark

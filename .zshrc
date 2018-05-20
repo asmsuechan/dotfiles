@@ -42,7 +42,7 @@ function zle-line-init zle-keymap-select {
     VIM_NORMAL="%K{green}%F{black}%k%f%K{green}%F{189} % -- NORMAL -- %k%f%K{black}%F{green}%k%f"
     VIM_INSERT="%K{240}%F{black}%k%f%K{240}%F{189} % -- INSERT -- %k%f%K{black}%F{240}%k%f"
     PS1_2="${${KEYMAP/vicmd/$VIM_NORMAL}/(main|viins)/$VIM_INSERT}"
-    PS1="%{$terminfo_down_sc$PS1_2$terminfo[rc]$fg[green]%} > $ "
+    PS1="%{$terminfo_down_sc$PS1_2$terminfo[rc]$fg[green]%} %C > $ "
     zle reset-prompt
 }
 preexec () { print -rn -- $terminfo[el]; }
@@ -59,15 +59,15 @@ bindkey -M menuselect 'k' vi-up-line-or-history
 bindkey -M menuselect 'l' vi-forward-char
 
 # gitブランチを表示する
-autoload -Uz vcs_info
-zstyle ':vcs_info:*' formats '[%b]'
-zstyle ':vcs_info:*' actionformats '[%b|%a]'
-precmd () {
-    psvar=()
-    LANG=en_US.UTF-8 vcs_info
-    [[ -n "$vcs_info_msg_0_" ]] && psvar[1]="$vcs_info_msg_0_"
-}
-RPROMPT="%1(v|%F{blue}%1v%f|)"
+# autoload -Uz vcs_info
+# zstyle ':vcs_info:*' formats '[%b]'
+# zstyle ':vcs_info:*' actionformats '[%b|%a]'
+# precmd () {
+#     psvar=()
+#     LANG=en_US.UTF-8 vcs_info
+#     [[ -n "$vcs_info_msg_0_" ]] && psvar[1]="$vcs_info_msg_0_"
+# }
+# RPROMPT="%1(v|%F{blue}%1v%f|)"
 
 # history周り
 HISTFILE=$HOME/.zsh_history
