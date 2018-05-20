@@ -142,10 +142,10 @@ module.exports = {
     'hyperterm-visor',
     // 'hyperterm-tabs',
     // 'hyperterm-mactabs',
-    'hyper-statusline',
+    // 'hyper-statusline',
     'hyper-search',
     'hyperborder',
-    'hyper-tabs-enhanced',
+    // 'hyper-tabs-enhanced',
     // 'verminal',
     'hyper-material-theme',
     // 'hyper-pokemon'
