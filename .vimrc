@@ -128,6 +128,7 @@ NeoBundle 'sophacles/vim-processing'
 " NeoBundle 'jistr/vim-nerdtree-tabs'
 NeoBundle 'sophacles/vim-processing'
 NeoBundle 'leafgarland/typescript-vim'
+"NeoBundle 'soramugi/auto-ctags.vim'
 
 "----------各プラグインの説明----------
 "[vimfiler]=:VimFilerで起動するファイラー
@@ -246,7 +247,7 @@ nnoremap <C-n> gT
 nnoremap <C-c> :tabclose<CR>
 "nnoremap <C-o> :OpenGithubFile<CR>
 
-set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
+"set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
 
 "新しいタブを開いたときなどにカーソルをファイルの方にする
 autocmd VimEnter * NERDTree
@@ -282,3 +283,17 @@ let g:lightline = {
 function! LightLineFilename()
   return expand('%')
 endfunction
+
+noremap PP "0p
+noremap x "_x
+
+"let g:auto_ctags = 1
+"let g:auto_ctags_directory_list = ['.git', '.svn']
+
+function! _updateCtags()
+  let tagsFile = getcwd() . '/tags'
+  exec ":silent ! ctags -R --extra=+fq && sed -i -e 's/^\\([a-zA-Z0-9]*\\)\\.vue/\\1/' " . tagsFile
+  " *.vueファイルの.vueの部分をsedで取り除く
+endfunction
+command! UpdateCtags call _updateCtags()
+autocmd BufWritePost * :UpdateCtags
