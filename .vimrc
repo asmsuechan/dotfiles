@@ -125,7 +125,9 @@ NeoBundle 'tyru/open-browser.vim'
 " " カラースキーマの選択
 NeoBundle 'ujihisa/unite-colorscheme'
 NeoBundle 'sophacles/vim-processing'
-NeoBundle 'jistr/vim-nerdtree-tabs'
+" NeoBundle 'jistr/vim-nerdtree-tabs'
+NeoBundle 'sophacles/vim-processing'
+NeoBundle 'leafgarland/typescript-vim'
 
 "----------各プラグインの説明----------
 "[vimfiler]=:VimFilerで起動するファイラー
