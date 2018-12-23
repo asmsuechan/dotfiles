@@ -21,7 +21,10 @@ zplug "junegunn/fzf-bin", \
     rename-to:fzf
 # 入力途中に候補をうっすら表示
 zplug "zsh-users/zsh-autosuggestions"
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=4'
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=3'
+zplug "mollifier/zload"
+zplug "willghatch/zsh-hooks"
+zplug "RobSis/zsh-completion-generator", if:"GENCOMPL_FPATH=$HOME/.zsh/complete"
 
 if ! zplug check --verbose; then
     printf "Install? [y/N]: "

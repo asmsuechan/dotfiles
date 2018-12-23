@@ -145,9 +145,6 @@ NeoBundle 'leafgarland/typescript-vim'
 "NERTTreeをCtr+Eで開くようにする
 nnoremap <silent><C-e> :NERDTreeToggle<CR>
 
-"lightlineの設定
-let g:lightline = { 'colorscheme': 'seoul256' }
-
 "gitgutterのキーマップを設定
 "nnoremap <silent> ,gt :<C-u>gitGutterToggle<CR>
 nnoremap <silent> ,gl :<C-u>GitGutterLineHighlightsToggle<CR>
@@ -268,3 +265,20 @@ autocmd VimEnter * wincmd p
 
 filetype plugin indent on
 set t_Co=256
+
+"lightlineの設定
+let g:lightline = {
+      \ 'colorscheme': 'seoul256',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'readonly', 'filename', 'gitbranch', 'modified' ] ]
+      \ },
+      \ 'component_function': {
+      \   'filename': 'LightLineFilename',
+      \   'gitbranch': 'fugitive#head'
+      \ }
+      \ }
+
+function! LightLineFilename()
+  return expand('%')
+endfunction
