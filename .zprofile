@@ -38,6 +38,12 @@ function cdls () {
   \cd "$@" && ls -lah
 }
 
+# From https://github.com/sorin-ionescu/prezto/blob/master/modules/utility/functions/_cdls_popdls_pushdls
+# 原因は不明だけどpreztoに依存する何かがあるおかげで突然ディレクトリのタブ補完が効かなくなった
+function _cdls_popdls_pushdls () {
+  _cd
+}
+
 function execIfCommandExists () {
   if type $1 2>/dev/null 1>/dev/null;then
     $1
