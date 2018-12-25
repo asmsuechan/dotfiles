@@ -21,7 +21,7 @@ zplug "junegunn/fzf-bin", \
     rename-to:fzf
 # 入力途中に候補をうっすら表示
 zplug "zsh-users/zsh-autosuggestions"
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=3'
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=4'
 zplug "mollifier/zload"
 zplug "willghatch/zsh-hooks"
 zplug "RobSis/zsh-completion-generator", if:"GENCOMPL_FPATH=$HOME/.zsh/complete"
@@ -143,7 +143,7 @@ setopt complete_in_word      # 語の途中でもカーソル位置で補完
 setopt always_last_prompt    # カーソル位置は保持したままファイル名一覧を順次その場で表示
 
 setopt print_eight_bit  #日本語ファイル名等8ビットを通す
-setopt extended_glob  # 拡張グロブで補完(~とか^とか。例えばless *.txt~memo.txt ならmemo.txt 以外の *.txt にマッチ)
+# setopt extended_glob  # 拡張グロブで補完(~とか^とか。例えばless *.txt~memo.txt ならmemo.txt 以外の *.txt にマッチ)
 setopt globdots # 明確なドットの指定なしで.から始まるファイルをマッチ
 bindkey "^I" menu-complete   # 展開する前に補完候補を出させる(Ctrl-iで補完するようにする)
 

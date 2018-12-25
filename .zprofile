@@ -22,6 +22,10 @@ export ANDROID_HOME=${HOME}/Library/Android/sdk
 export PATH=${PATH}:${ANDROID_HOME}/tools
 export PATH=${PATH}:${ANDROID_HOME}/platform-tools
 
+# perl: warning: Setting locale failed.を回避するためにLANGを設定する。
+export LANG=ja_JP.UTF-8
+export LC_ALL=ja_JP.UTF-8
+
 function choosable-rake () {
   RAKETASK=$(rake -D | grep '^rake ' | peco)
   if [ -n "$RAKETASK" ];then

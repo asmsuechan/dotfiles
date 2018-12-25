@@ -285,15 +285,15 @@ function! LightLineFilename()
 endfunction
 
 noremap PP "0p
-noremap x "_x
+"noremap x "_x
 
 "let g:auto_ctags = 1
 "let g:auto_ctags_directory_list = ['.git', '.svn']
 
-function! _updateCtags()
-  let tagsFile = getcwd() . '/tags'
-  exec ":silent ! ctags -R --extra=+fq && sed -i -e 's/^\\([a-zA-Z0-9]*\\)\\.vue/\\1/' " . tagsFile
-  " *.vueファイルの.vueの部分をsedで取り除く
-endfunction
-command! UpdateCtags call _updateCtags()
-autocmd BufWritePost * :UpdateCtags
+"function! _updateCtags()
+"  let tagsFile = getcwd() . '/tags'
+"  exec ":silent ! ctags -R --extra=+fq && sed -i -e 's/^\\([a-zA-Z0-9]*\\)\\.vue/\\1/' " . tagsFile . " && sed -i -e 's/^\\([a-zA-Z0-9]*\\)\\.js/\\1/' " . tagsFile
+"  " *.vueファイルの.vueの部分をsedで取り除く
+"endfunction
+"command! UpdateCtags call _updateCtags()
+"autocmd BufWritePost * :UpdateCtags
