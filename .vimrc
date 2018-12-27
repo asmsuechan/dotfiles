@@ -48,6 +48,7 @@ set termencoding=UTF-8
 "表示設定
 syntax on
 set title
+set titlestring=vim\ \|\ %-25.55F\ %a%r%m titlelen=70
 "行番号の表示
 set number
 "goではタブをスペースに変換しない

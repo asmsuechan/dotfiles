@@ -21,10 +21,11 @@ zplug "junegunn/fzf-bin", \
     rename-to:fzf
 # 入力途中に候補をうっすら表示
 zplug "zsh-users/zsh-autosuggestions"
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=4'
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=240'
 zplug "mollifier/zload"
 zplug "willghatch/zsh-hooks"
 zplug "RobSis/zsh-completion-generator", if:"GENCOMPL_FPATH=$HOME/.zsh/complete"
+zplug "supercrabtree/k"
 
 if ! zplug check --verbose; then
     printf "Install? [y/N]: "
@@ -62,10 +63,10 @@ autoload -Uz colors; colors
 # vimっぽいキーバインドにする
 terminfo_down_sc=$terminfo[cud1]$terminfo[cuu1]$terminfo[sc]$terminfo[cud1]
 function zle-line-init zle-keymap-select {
-    VIM_NORMAL="%K{green}%F{black}%k%f%K{green}%F{189} % -- NORMAL -- %k%f%K{black}%F{green}%k%f"
+    VIM_NORMAL="%K{green}%F{black}%k%f%K{green}%F{black} % -- NORMAL -- %k%f%K{black}%F{green}%k%f"
     VIM_INSERT="%K{240}%F{black}%k%f%K{240}%F{189} % -- INSERT -- %k%f%K{black}%F{240}%k%f"
     PS1_2="${${KEYMAP/vicmd/$VIM_NORMAL}/(main|viins)/$VIM_INSERT}"
-    PS1="%{$terminfo_down_sc$PS1_2$terminfo[rc]$fg[green]%}%C > "
+    PS1="%{$terminfo_down_sc$PS1_2$terminfo[rc]$fg[cyan]%}%C %F{red}▶%f "
     zle reset-prompt
 }
 preexec () { print -rn -- $terminfo[el]; }
@@ -97,9 +98,9 @@ PROMPT2="%{${fg[yellow]}%} %_ > %{${reset_color}%}"
 SPROMPT="%{${fg[red]}%}correct: %R -> %r ? [n,y,a,e] %{${reset_color}%}"
 
 # history周り
-HISTFILE=$HOME/.zsh_history
-HISTSIZE=10000
-SAVEHIST=10000
+export HISTFILE=$HOME/.zsh_history
+export HISTSIZE=10000
+export SAVEHIST=10000
 # 入力途中の履歴補完
 autoload history-search-end
 zle -N history-beginning-search-backward-end history-search-end
@@ -141,6 +142,8 @@ setopt magic_equal_subst     # コマンドラインの引数で --prefix=/usr �
 
 setopt complete_in_word      # 語の途中でもカーソル位置で補完
 setopt always_last_prompt    # カーソル位置は保持したままファイル名一覧を順次その場で表示
+setopt list_packed # 補完候補を詰めて表示する
+setopt hist_expand
 
 setopt print_eight_bit  #日本語ファイル名等8ビットを通す
 # setopt extended_glob  # 拡張グロブで補完(~とか^とか。例えばless *.txt~memo.txt ならmemo.txt 以外の *.txt にマッチ)
@@ -168,3 +171,31 @@ esac
 
 # added by travis gem
 [ -f $HOME/.travis/travis.sh ] && source $HOME/.travis/travis.sh
+
+# 読み込み順番の問題で色がつかなかったので.zprofileから移動
+function cdls () {
+  \cd "$@" && ls -lah
+}
+alias cd='cdls'
+
+# Override auto-title when static titles are desired ($ title My new title)
+title() { export TITLE_OVERRIDDEN=1; echo -en "\e]0;$*\a"}
+# Turn off static titles ($ autotitle)
+autotitle() { export TITLE_OVERRIDDEN=0 }; autotitle
+# Condition checking if title is overridden
+overridden() { [[ $TITLE_OVERRIDDEN == 1 ]]; }
+# Echo asterisk if git state is dirty
+gitDirty() { [[ $(git status 2> /dev/null | grep -o '\w\+' | tail -n1) != ("clean"|"") ]] && echo "*" }
+
+# Show cwd when shell prompts for input.
+precmd() {
+   if overridden; then return; fi
+   cwd=${$(pwd)##*/} # Extract current working dir only
+   print -Pn "\e]0;$cwd$(gitDirty)\a" # Replace with $pwd to show full path
+}
+
+# Prepend command (w/o arguments) to cwd while waiting for command to complete.
+preexec() {
+   if overridden; then return; fi
+   printf "\033]0;%s\a" "${1%% *} | $cwd$(gitDirty)" # Omit construct from $1 to show args
+}

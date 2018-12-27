@@ -38,10 +38,6 @@ function clip_file () {
   cat $1 | pbcopy
 }
 
-function cdls () {
-  \cd "$@" && ls -lah
-}
-
 # From https://github.com/sorin-ionescu/prezto/blob/master/modules/utility/functions/_cdls_popdls_pushdls
 # 原因は不明だけどpreztoに依存する何かがあるおかげで突然ディレクトリのタブ補完が効かなくなった
 function _cdls_popdls_pushdls () {
@@ -120,7 +116,6 @@ alias fzf-vim='vim $(fzf)'
 alias tailf='tail -f'
 alias la='ls -lah'
 alias ll='ls -lh'
-alias cd='cdls'
 alias emacs='vim'
 
 alias docker-composer='docker-compose'

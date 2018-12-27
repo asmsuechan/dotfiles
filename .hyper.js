@@ -9,7 +9,7 @@ module.exports = {
     updateChannel: 'stable',
 
     // default font size in pixels for all tabs
-    fontSize: 12,
+    fontSize: 14,
 
     // font family with optional fallbacks
     fontFamily: 'Menlo, "DejaVu Sans Mono", Consolas, "Lucida Console", monospace',
@@ -128,6 +128,9 @@ module.exports = {
     },
     hyperBorder: {
       borderWidth: '2px',
+    },
+    hyperStatusLine: {
+      dirtyColor: 'salmon',
     }
   },
 
@@ -140,6 +143,9 @@ module.exports = {
   plugins: [
     'hypercwd',
     'hyperterm-visor',
+    'hyper-statusline',
+    'hyper-tab-icons-plus',
+    // 'hyperline',
     // 'hyperterm-tabs',
     // 'hyperterm-mactabs',
     // 'hyper-statusline',
