@@ -9,7 +9,7 @@ module.exports = {
     updateChannel: 'stable',
 
     // default font size in pixels for all tabs
-    fontSize: 14,
+    fontSize: 20,
 
     // font family with optional fallbacks
     fontFamily: 'Menlo, "DejaVu Sans Mono", Consolas, "Lucida Console", monospace',
@@ -37,13 +37,13 @@ module.exports = {
 
     // terminal background color
     // opacity is only supported on macOS
-    backgroundColor: '#000',
+    backgroundColor: '#444',
 
     // terminal selection color
     selectionColor: 'rgba(248,28,229,0.3)',
 
     // border color (window, tabs)
-    borderColor: '#333',
+    borderColor: '#2c2c2c',
 
     // custom CSS to embed in the main window
     css: '',
@@ -61,13 +61,13 @@ module.exports = {
     showWindowControls: '',
 
     // custom padding (CSS format, i.e.: `top right bottom left`)
-    padding: '12px 14px',
+    padding: '0px 14px',
 
     // the full list. if you're going to provide the full color palette,
     // including the 6 x 6 color cubes and the grayscale map, just provide
     // an array here instead of a color map object
     colors: {
-      black: '#000000',
+      black: '#000',
       red: '#C51E14',
       green: '#1DC121',
       yellow: '#C7C329',
@@ -127,7 +127,7 @@ module.exports = {
       hotkey: 'Control+i',
     },
     hyperBorder: {
-      borderWidth: '2px',
+      borderWidth: '2px'
     },
     hyperStatusLine: {
       dirtyColor: 'salmon',

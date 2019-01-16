@@ -15,14 +15,11 @@ set ruler
 set showmatch
 " 行を強調表示
 "set cursorline
-"yankをクリップボードにも書き込む(macvim)
-set clipboard=unnamed
 "検索結果をハイライト表示する
 set hlsearch
 "マウス操作を有効にする
 set mouse=a
 "OSのクリップボードを使う
-set clipboard=unnamed
 
 "ステータスラインの設定
 set laststatus=2
@@ -298,3 +295,6 @@ noremap PP "0p
 "endfunction
 "command! UpdateCtags call _updateCtags()
 "autocmd BufWritePost * :UpdateCtags
+
+"yankをクリップボードにも書き込む
+set clipboard=unnamedplus

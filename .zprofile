@@ -129,5 +129,5 @@ alias docker-kill-all='docker kill `docker ps -q`'
 alias docker-rm-all='docker rmi -f `docker images -q`'
 alias dcup='docker-compose up'
 
-alias python='docker run -it -v `pwd`/:/src -w /src -e PYTHONPATH="/src/.pip" python python'
-alias 'pip-install'='docker run -it -v `pwd`/:/src -w /src python pip install --target=/src/.pip'
+# alias python='docker run -it -v `pwd`/:/src -w /src -e PYTHONPATH="/src/.pip" python python'
+# alias 'pip-install'='docker run -it -v `pwd`/:/src -w /src python pip install --target=/src/.pip'
