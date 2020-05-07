@@ -1,5 +1,6 @@
 GOPATH=$HOME/go
 PATH=/usr/local/git/bin:/bin:/usr/local/bin:/usr/bin:$HOME/.rbenv/bin:$GOPATH/bin:${PATH}
+PATH=$PATH:/usr/local/go/bin
 export PATH
 
 if $(command -v direnv > /dev/null 2>&1);then
@@ -86,7 +87,7 @@ function history-peco() {
 }
 
 # rails系のalias
-alias rake='bundle exec rake'
+# alias rake='bundle exec rake'
 alias rails='bundle exec rails'
 alias rr='bundle exec rake routes'
 alias rT='bundle exec rake -T'
@@ -131,3 +132,6 @@ alias dcup='docker-compose up'
 
 # alias python='docker run -it -v `pwd`/:/src -w /src -e PYTHONPATH="/src/.pip" python python'
 # alias 'pip-install'='docker run -it -v `pwd`/:/src -w /src python pip install --target=/src/.pip'
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"

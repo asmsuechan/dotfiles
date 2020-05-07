@@ -238,3 +238,10 @@ preexec() {
    if overridden; then return; fi
    printf "\033]0;%s\a" "${1%% *} | $cwd$(gitDirty)" # Omit construct from $1 to show args
 }
+
+# tabtab source for serverless package
+# uninstall by removing these lines or running `tabtab uninstall serverless`
+[[ -f /home/asmsuechan/src/morioka-lab/newtype_website/node_modules/tabtab/.completions/serverless.zsh ]] && . /home/asmsuechan/src/morioka-lab/newtype_website/node_modules/tabtab/.completions/serverless.zsh
+# tabtab source for sls package
+# uninstall by removing these lines or running `tabtab uninstall sls`
+[[ -f /home/asmsuechan/src/morioka-lab/newtype_website/node_modules/tabtab/.completions/sls.zsh ]] && . /home/asmsuechan/src/morioka-lab/newtype_website/node_modules/tabtab/.completions/sls.zsh

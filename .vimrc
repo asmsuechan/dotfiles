@@ -127,6 +127,10 @@ NeoBundle 'sophacles/vim-processing'
 NeoBundle 'sophacles/vim-processing'
 NeoBundle 'leafgarland/typescript-vim'
 "NeoBundle 'soramugi/auto-ctags.vim'
+"NeoBundle 'beautify-web/js-beautify'
+"NeoBundle 'leafgarland/typescript-vim'
+NeoBundle 'peitalin/vim-jsx-typescript'
+NeoBundle 'maxmellon/vim-jsx-pretty'
 
 "----------各プラグインの説明----------
 "[vimfiler]=:VimFilerで起動するファイラー
@@ -298,3 +302,16 @@ noremap PP "0p
 
 "yankをクリップボードにも書き込む
 set clipboard=unnamedplus
+
+autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescript.tsx
+"" dark red
+"hi tsxTagName guifg=#E06C75
+"
+"" orange
+"hi tsxCloseString guifg=#F99575
+"hi tsxCloseTag guifg=#F99575
+"hi tsxCloseTagName guifg=#F99575
+"hi tsxAttributeBraces guifg=#F99575
+"hi tsxEqual guifg=#F99575
+
+let g:vim_jsx_pretty_colorful_config = 1 " default 0
