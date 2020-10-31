@@ -36,6 +36,13 @@ inoremap jj <ESC>
 "入力モード中に素早くjjと入力した場合はESCとみなす
 vnoremap v $h
 
+nnoremap x "_x
+nnoremap s "_s
+nnoremap <ESC><ESC> :nohl<CR>
+"hi MatchParen ctermbg=1
+let loaded_matchparen = 1
+"hi MatchParen ctermfg=White ctermbg=Yellow
+
 "文字コードをUTF-8にする
 set encoding=UTF-8
 set fileencoding=UTF-8
@@ -131,6 +138,9 @@ NeoBundle 'leafgarland/typescript-vim'
 "NeoBundle 'leafgarland/typescript-vim'
 NeoBundle 'peitalin/vim-jsx-typescript'
 NeoBundle 'maxmellon/vim-jsx-pretty'
+NeoBundle 'Valloric/YouCompleteMe'
+let g:ycm_global_ycm_extra_conf = "~/.vim/rc/.ycm_extra_conf.py"
+let g:ycm_min_num_of_chars_for_completion = 1
 
 "----------各プラグインの説明----------
 "[vimfiler]=:VimFilerで起動するファイラー

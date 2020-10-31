@@ -57,6 +57,9 @@ zstyle ':completion:*:manuals' separate-sections true
 # マッチ種別を別々に表示
 zstyle ':completion:*' group-name ''
 
+# 補完で小文字でも大文字にマッチさせる
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+
 autoload -U compinit; compinit
 autoload -Uz colors; colors
 
@@ -104,7 +107,8 @@ function zle-line-init zle-keymap-select {
     VIM_NORMAL="%K{green}%F{black}%k%f%K{green}%F{black} % -- NORMAL -- %k%f%K{black}%F{green}%k%f"
     VIM_INSERT="%K{240}%F{black}%k%f%K{240}%F{189} % -- INSERT -- %k%f%K{black}%F{240}%k%f"
     PS1_2="${${KEYMAP/vicmd/$VIM_NORMAL}/(main|viins)/$VIM_INSERT}"
-    PS1="%{$terminfo_down_sc$PS1_2$terminfo[rc]$fg[cyan]%}%C %F{red}▶%f "
+    # PS1=" %{${fg[yellow]}%}%~ %{${fg[red]}%}%# %{${reset_color}%}"
+    PS1="%{$terminfo_down_sc$PS1_2$terminfo[rc]$fg[cyan]%}%{${fg[yellow]}%}%~ %F{red}>%f "
     RPS1='`rprompt-git-current-branch`'
     zle reset-prompt
 }
@@ -213,7 +217,7 @@ esac
 
 # 読み込み順番の問題で色がつかなかったので.zprofileから移動
 function cdls () {
-  \cd "$@" && ls -lah
+  \cd "$@" && exa -l --all --group-directories-first --git
 }
 alias cd='cdls'
 
@@ -245,3 +249,5 @@ preexec() {
 # tabtab source for sls package
 # uninstall by removing these lines or running `tabtab uninstall sls`
 [[ -f /home/asmsuechan/src/morioka-lab/newtype_website/node_modules/tabtab/.completions/sls.zsh ]] && . /home/asmsuechan/src/morioka-lab/newtype_website/node_modules/tabtab/.completions/sls.zsh
+
+source ~/.zprofile

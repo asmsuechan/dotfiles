@@ -86,6 +86,19 @@ function history-peco() {
   print -z `history 1 | sed 's/^ *[0-9]* *//' | peco`
 }
 
+if command -v exa &> /dev/null; then
+  alias ls='exa'
+  alias l='exa -l --all --group-directories-first --git'
+  alias ll='exa -l --all --all --group-directories-first --git'
+  alias lt='exa -T --git-ignore --level=2 --group-directories-first'
+  alias llt='exa -lT --git-ignore --level=2 --group-directories-first'
+  alias lT='exa -T --git-ignore --level=4 --group-directories-first'
+else
+  alias l='ls -lah'
+  alias ll='ls -alF'
+  alias la='ls -A'
+fi
+
 # rails系のalias
 # alias rake='bundle exec rake'
 alias rails='bundle exec rails'
@@ -135,3 +148,8 @@ alias dcup='docker-compose up'
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
+
+export PATH="$HOME/.cargo/bin:$PATH"
+
+export TERM='xterm-256color'
+export PATH="$PATH:`yarn global bin`"
