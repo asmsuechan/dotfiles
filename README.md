@@ -2,6 +2,12 @@
 
 asmsuechanの開発環境設定ファイル集です。モダンなCLIツールと快適な開発体験を提供します。
 
+## 📖 ドキュメント
+
+- 📘 [クイックスタートガイド](QUICKSTART.md) - 最初に読むべき！基本的な使い方
+- 📗 [ツールリファレンス](TOOLS_REFERENCE.md) - 全ツールのコマンド一覧
+- 📕 [README.md](README.md) - 詳細なセットアップとトラブルシューティング（このファイル）
+
 ## 環境構築手順
 
 ### クイックスタート
@@ -190,9 +196,17 @@ brew install --cask font-hack-nerd-font
 **編集**
 - `gcc`: 行コメントアウト（vim-commentary）
 - `PP`: 0レジスタからペースト
+- `cs"'`: ダブルクォートをシングルクォートに変更（vim-surround）
+- `ds"`: クォートを削除（vim-surround）
 
 **Git**
 - `,gl`: GitGutter行ハイライトトグル
+
+**メモ・執筆**
+- `<Leader>g`: Goyo集中執筆モード
+- `<Leader>u`: Undotreeでundo履歴表示
+- `<Leader>ww`: VimWikiメインページ
+- `<Leader>wt`: VimWiki目次生成
 
 #### プラグイン
 
@@ -456,6 +470,67 @@ Ctrl+e
 # タブ移動
 Ctrl+p (右へ)
 Ctrl+n (左へ)
+```
+
+## 追加の推奨ツール
+
+基本的なセットアップ後、さらに便利なツールをインストールできます：
+
+```bash
+./install-recommended-tools.sh
+```
+
+このスクリプトでインストールされるツール：
+
+### ナビゲーション
+- **zoxide** (`z <dir>`) - 頻繁に使うディレクトリへ素早く移動
+- **atuin** (Ctrl+R) - 高機能なシェル履歴（複数マシン間で同期可能）
+- **thefuck** (`fuck`) - 間違ったコマンドを自動修正
+
+### Git & GitHub
+- **lazygit** (`lg`) - Git操作のターミナルUI（超便利！）
+- **tig** - Gitのブラウザ・ログビューア
+
+### Docker
+- **lazydocker** (`lzd`) - Docker管理のターミナルUI
+- **dive** - Dockerイメージの中身を探索
+
+### ドキュメント
+- **tldr** - 簡潔なコマンドヘルプ（man pagesより分かりやすい）
+- **glow** - ターミナルでMarkdownを美しく表示
+- **cheat** - インタラクティブなチートシート
+
+### システム監視
+- **btop** - 美しいシステムモニター
+- **fastfetch** (`sysinfo`) - システム情報を瞬時に表示
+- **procs** (`proc`) - モダンなプロセスビューア
+
+### データ処理
+- **yq** - YAML/XMLプロセッサ（jqのYAML版）
+- **fx** - インタラクティブなJSON探索ツール
+
+### ネットワーク
+- **httpie** (`http`) - 使いやすいHTTPクライアント
+- **curlie** - curlをhttpie風のUIで
+
+## Vimの追加機能
+
+### メモ・執筆用プラグイン
+- **VimWiki** - Vim内でパーソナルWiki（`~/vimwiki/`）
+- **Goyo** - 集中執筆モード（`<Leader>g`で起動）
+- **Limelight** - 現在の段落をハイライト
+- **Undotree** - Undo履歴を可視化（`<Leader>u`）
+
+使い方：
+```vim
+" 集中執筆モード（メモ書きに最適）
+<Leader>g
+
+" Undo履歴を表示
+<Leader>u
+
+" VimWikiのメインページを開く
+<Leader>ww
 ```
 
 ## 対応環境

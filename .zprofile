@@ -266,3 +266,21 @@ if command -v yarn >/dev/null 2>&1; then
     export PATH="$PATH:$YARN_GLOBAL_BIN"
   fi
 fi
+
+# zoxide - smarter cd
+if command -v zoxide >/dev/null 2>&1; then
+  eval "$(zoxide init zsh)"
+fi
+
+# atuin - better shell history
+if command -v atuin >/dev/null 2>&1; then
+  eval "$(atuin init zsh)"
+fi
+
+# thefuck - command correction
+if command -v thefuck >/dev/null 2>&1; then
+  eval "$(thefuck --alias)"
+fi
+
+# Load custom aliases
+[ -f ~/.zsh_aliases ] && source ~/.zsh_aliases

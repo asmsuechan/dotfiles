@@ -118,6 +118,9 @@ Plug 'tyru/open-browser.vim'
 Plug 'tyru/open-browser-github.vim'
 Plug 'mattn/emmet-vim'
 Plug 'preservim/nerdcommenter'      " より強力なコメント機能
+Plug 'mbbill/undotree'              " undo履歴を可視化
+Plug 'vim-scripts/utl.vim'          " URLを開く
+Plug 'vimwiki/vimwiki'              " パーソナルWiki（メモ管理に最適）
 
 " --- Git連携 ---
 Plug 'tpope/vim-fugitive'
@@ -138,6 +141,8 @@ Plug 'mattn/vim-sonots'             " jbuilder support etc
 Plug 'plasticboy/vim-markdown'      " 強化されたMarkdownサポート
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npx --yes yarn install' }
 Plug 'dhruvasagar/vim-table-mode'   " テーブル作成を簡単に
+Plug 'junegunn/goyo.vim'            " 集中執筆モード（メモに最適）
+Plug 'junegunn/limelight.vim'       " 現在の段落をハイライト
 
 " --- 補完・LSP (Modernization Core) ---
 " neocomplete/vim-lspの代わりにCocを採用
@@ -269,6 +274,29 @@ let g:vim_markdown_conceal = 0              " 記号の隠蔽を無効化
 let g:vim_markdown_frontmatter = 1          " YAML front matterをハイライト
 let g:vim_markdown_toc_autofit = 1          " TOCを自動調整
 let g:vim_markdown_new_list_item_indent = 2 " リストアイテムのインデント
+
+" --- Goyo & Limelight (集中執筆モード) ---
+" 集中執筆モードを起動/終了
+nnoremap <silent> <Leader>g :Goyo<CR>
+
+" Goyoを起動したらLimelightも自動起動
+autocmd! User GoyoEnter Limelight
+autocmd! User GoyoLeave Limelight!
+
+" Limelightの設定
+let g:limelight_conceal_ctermfg = 'gray'
+let g:limelight_conceal_guifg = '#777777'
+
+" --- Undotree ---
+nnoremap <Leader>u :UndotreeToggle<CR>
+let g:undotree_WindowLayout = 2
+let g:undotree_SetFocusWhenToggle = 1
+
+" --- VimWiki (メモ・Wiki管理) ---
+let g:vimwiki_list = [{'path': '~/vimwiki/',
+                      \ 'syntax': 'markdown',
+                      \ 'ext': '.md'}]
+let g:vimwiki_global_ext = 0  " .mdファイルを全てVimWikiとして扱わない
 
 "=============================================================================
 " その他の自動処理 (Autocmds)
