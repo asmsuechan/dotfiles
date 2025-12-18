@@ -61,12 +61,35 @@ echo ""
 # 1. Install Homebrew (macOS)
 #=============================================================================
 print_info "Checking for Homebrew..."
+
+# Set Homebrew PATH if it exists
+if [ -d "$HOME/homebrew" ]; then
+    export PATH="$HOME/homebrew/bin:$HOME/homebrew/sbin:$PATH"
+    print_info "Using Homebrew at: $HOME/homebrew"
+elif [ -d "/opt/homebrew" ]; then
+    export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
+    print_info "Using Homebrew at: /opt/homebrew"
+elif [ -d "/usr/local/Homebrew" ]; then
+    export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
+    print_info "Using Homebrew at: /usr/local"
+fi
+
 if ! command_exists brew; then
     print_warning "Homebrew not found. Installing..."
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+    # Set PATH after installation
+    if [ -d "$HOME/homebrew" ]; then
+        export PATH="$HOME/homebrew/bin:$HOME/homebrew/sbin:$PATH"
+    elif [ -d "/opt/homebrew" ]; then
+        export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
+    elif [ -d "/usr/local/Homebrew" ]; then
+        export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
+    fi
+
     print_success "Homebrew installed"
 else
-    print_success "Homebrew already installed"
+    print_success "Homebrew already installed at: $(which brew)"
 fi
 echo ""
 
@@ -283,16 +306,41 @@ fi
 echo ""
 
 #=============================================================================
+# 10. Install Nerd Fonts (Required for icons)
+#=============================================================================
+print_info "Installing Nerd Fonts for icon support..."
+
+if brew list --cask font-jetbrains-mono-nerd-font &>/dev/null; then
+    print_success "JetBrains Mono Nerd Font already installed"
+elif brew list --cask font-fira-code-nerd-font &>/dev/null; then
+    print_success "Fira Code Nerd Font already installed"
+elif brew list --cask font-hack-nerd-font &>/dev/null; then
+    print_success "Hack Nerd Font already installed"
+else
+    print_info "Installing JetBrains Mono Nerd Font..."
+    brew install --cask font-jetbrains-mono-nerd-font
+    print_success "JetBrains Mono Nerd Font installed"
+fi
+echo ""
+
+#=============================================================================
 # Completion
 #=============================================================================
 echo ""
 print_success "Setup complete!"
 echo ""
 echo -e "${YELLOW}Next steps:${NC}"
-echo "1. Restart your terminal or run: source ~/.zshrc"
-echo "2. Install Starship fonts for best experience:"
-echo "   - Download a Nerd Font: https://www.nerdfonts.com/"
-echo "   - Recommended: JetBrains Mono Nerd Font or Fira Code Nerd Font"
-echo "   - Set it in iTerm2: Preferences -> Profiles -> Text -> Font"
-echo "3. Enjoy your modern development environment!"
+echo "1. Configure iTerm2 to use Nerd Font:"
+echo "   - Press ⌘, to open Preferences"
+echo "   - Go to Profiles → Text"
+echo "   - Set Font to: JetBrainsMono Nerd Font (size 13-14)"
+echo "   - ✅ Check 'Use ligatures'"
+echo "   - ✅ Check 'Use a different font for non-ASCII text'"
+echo "   - Set Non-ASCII Font to: JetBrainsMono Nerd Font"
+echo ""
+echo "2. Restart your terminal or run: source ~/.zshrc"
+echo ""
+echo "3. Test icons: ./test-icons.sh"
+echo ""
+echo "4. Enjoy your modern development environment!"
 echo ""

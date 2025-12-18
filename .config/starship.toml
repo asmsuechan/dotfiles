@@ -9,7 +9,7 @@ add_newline = true
 
 # Format: customize the prompt layout
 format = """
-[┌─](bold green)$username$hostname$directory$git_branch$git_status$git_state
+[┌─](bold green)$username$hostname$directory$git_branch$git_status$git_state$time
 [└─](bold green)$character"""
 
 # Character module (the prompt symbol)
@@ -84,11 +84,12 @@ format = "[$symbol($version )]($style)"
 symbol = " "
 format = "[$symbol($version )]($style)"
 
-# Time module (disabled by default, uncomment to enable)
+# Time module
 [time]
-disabled = true
-format = '🕙[\[ $time \]]($style) '
-time_format = "%T"
+disabled = false
+format = ' [🕙 $time]($style)'
+time_format = "%H:%M:%S"
+style = "bold yellow"
 
 # Command duration
 [cmd_duration]

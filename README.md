@@ -86,19 +86,61 @@ ln -s ~/dotfiles/vscode/settings.json ~/Library/Application\ Support/Code/User/s
 cat ~/dotfiles/vscode/extensions.txt | grep -v '^#' | grep -v '^$' | xargs -L 1 code --install-extension
 ```
 
-#### 6. Nerd Fontのインストール（推奨）
+#### 6. Nerd Fontのインストール（必須）
 
-Starshipとアイコン表示のために、Nerd Fontのインストールを推奨します。
+**重要**: アイコン表示（eza、vim-devicons等）のためにNerd Fontは必須です。
 
-1. [Nerd Fonts](https://www.nerdfonts.com/)から好みのフォントをダウンロード
-2. 推奨フォント：JetBrains Mono Nerd Font、Fira Code Nerd Font
-3. iTerm2の設定：Preferences → Profiles → Text → Font で設定
+**簡単インストール（推奨）**:
+
+```bash
+# 自動インストール＆設定ガイド
+./install-nerd-font.sh
+```
+
+このスクリプトが：
+- Nerd Fontを自動インストール
+- iTerm2の設定手順を詳しく表示
+- よくある問題の解決方法を提示
+
+**手動インストール方法**:
+
+```bash
+# 推奨: JetBrains Mono Nerd Font
+brew install --cask font-jetbrains-mono-nerd-font
+
+# または Fira Code Nerd Font
+brew install --cask font-fira-code-nerd-font
+
+# または Hack Nerd Font
+brew install --cask font-hack-nerd-font
+```
+
+**iTerm2での設定（重要！）**:
+
+1. `⌘,` (Command + カンマ) で Preferences を開く
+2. **Profiles** → **Text** タブ
+3. **Font**: `JetBrainsMono Nerd Font` を選択（サイズ 13-14推奨）
+4. ✅ **Use ligatures** にチェック
+5. ✅ **Use a different font for non-ASCII text** にチェック ← **これが重要！**
+6. Non-ASCII Fontも同じ `JetBrainsMono Nerd Font` を選択
+7. iTerm2を完全に再起動（⌘Q で終了 → 再起動）
+
+**確認方法**:
+
+```bash
+./test-icons.sh
+```
+
+アイコンが `[?]` や `□` ではなく、実際のアイコン（、、等）で表示されればOKです。
 
 ## 主要な機能
 
 ### シェル環境（zsh）
 
 - **Starship**: 高速で美しいプロンプト
+  - 現在時刻を表示（HH:MM:SS形式）
+  - Gitブランチとステータスを色分け表示
+  - Vi modeインジケーター
 - **Vi Mode**: `jj`でノーマルモードに移行
 - **自動補完**: 強化された補完機能
 - **履歴検索**: Ctrl+P/N で履歴を検索
@@ -224,6 +266,19 @@ Starshipの設定は `.config/starship.toml` で変更できます。
 vim ~/.config/starship.toml
 ```
 
+**時間表示のカスタマイズ例**:
+
+```toml
+# 時刻の表示形式を変更
+[time]
+disabled = false
+format = ' [🕙 $time]($style)'
+time_format = "%H:%M:%S"  # 24時間表示
+# time_format = "%I:%M:%S %p"  # 12時間表示（AM/PM）
+# time_format = "%H:%M"  # 時:分のみ
+style = "bold yellow"
+```
+
 詳細は[Starship公式ドキュメント](https://starship.rs/config/)を参照。
 
 ### Vimプラグインの追加
@@ -295,17 +350,61 @@ code --install-extension <extension-id>
 2. フォントがNerd Fontか確認
 3. iTerm2のフォント設定を確認
 
-### アイコンが文字化けする
+### アイコンが [?] や文字化けする
 
-Nerd Fontがインストールされていない可能性があります。上記「Nerd Fontのインストール」を参照。
+**症状**: eza、vim、NERDTreeでアイコンが `[?]` や `�` と表示される
+
+**原因**: Nerd Fontがインストールされていないか、iTerm2で設定されていない
+
+**解決方法**:
+
+1. **Nerd Fontをインストール**:
+```bash
+brew install --cask font-jetbrains-mono-nerd-font
+```
+
+2. **iTerm2で設定**:
+   - `⌘,` → Preferences → Profiles → Text
+   - Font: `JetBrainsMono Nerd Font` を選択
+   - ✅ Use a different font for non-ASCII text にチェック
+   - Non-ASCII Fontも同じフォントを選択
+
+3. **ターミナルを再起動**
+
+4. **確認**:
+```bash
+cd ~/dotfiles
+./test-icons.sh
+```
+
+**注意**: フォント名は正確に入力する必要があります：
+- ✅ `JetBrainsMono Nerd Font` （正）
+- ❌ `JetBrains Mono` （誤）
+- ❌ `JetBrainsMono` （誤）
 
 ### Homebrew がカスタムパスにインストールされている
 
-Homebrewが標準パス以外（例：`$HOME/homebrew`）にある場合、`.zshrc`が自動的に検出します。
-検出されない場合は、`.zprofile`に以下を追加：
+**症状**: 新しいターミナルで`brew`コマンドが見つからない
+
+**原因**: Homebrewが標準パス以外にインストールされている
+
+**解決方法**: `.zprofile`が以下の場所を自動検出します：
+- `$HOME/homebrew` (カスタムインストール)
+- `/opt/homebrew` (Apple Silicon)
+- `/usr/local` (Intel Mac)
+
+上記以外の場所にある場合は、`.zprofile`の最初に以下を追加：
 
 ```bash
-export PATH="$HOME/homebrew/bin:$PATH"
+export PATH="/your/homebrew/path/bin:$PATH"
+export HOMEBREW_PREFIX="/your/homebrew/path"
+```
+
+確認方法：
+```bash
+# 新しいターミナルを開いて
+which brew
+# → Homebrewのパスが表示されればOK
 ```
 
 ## 便利なコマンド

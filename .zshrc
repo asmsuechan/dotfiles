@@ -95,7 +95,7 @@ autoload -Uz colors; colors
 # Prompt Configuration - Starship (Modern, fast, customizable prompt)
 #=============================================================================
 # Initialize Starship if available, otherwise fallback to custom prompt
-if command -v starship &> /dev/null; then
+if command -v starship >/dev/null 2>&1; then
   eval "$(starship init zsh)"
 else
   echo "Tip: Install Starship for a better prompt experience: brew install starship"
@@ -128,7 +128,7 @@ else
 
   setopt prompt_subst
   PROMPT="%{${fg[yellow]}%}%~ %F{red}>%f "
-  RPROMPT='`rprompt-git-current-branch`'
+  RPROMPT='%F{yellow}[%*]%f `rprompt-git-current-branch`'
   PROMPT2="%{${fg[yellow]}%} %_ > %{${reset_color}%}"
   SPROMPT="%{${fg[red]}%}correct: %R -> %r ? [n,y,a,e] %{${reset_color}%}"
 fi
@@ -140,7 +140,7 @@ bindkey -v
 bindkey -M viins 'jj' vi-cmd-mode
 
 # Show vi mode indicator if not using Starship
-if ! command -v starship &> /dev/null; then
+if ! command -v starship >/dev/null 2>&1; then
   terminfo_down_sc=$terminfo[cud1]$terminfo[cuu1]$terminfo[sc]$terminfo[cud1]
   function zle-line-init zle-keymap-select {
       VIM_NORMAL="%K{green}%F{black}%k%f%K{green}%F{black} % -- NORMAL -- %k%f%K{black}%F{green}%k%f"
@@ -243,9 +243,9 @@ esac
 # cdしたら自動的にlsを実行
 function cdls () {
   \cd "$@" && {
-    if command -v eza &> /dev/null; then
+    if command -v eza >/dev/null 2>&1; then
       eza -l --all --group-directories-first --git --icons
-    elif command -v exa &> /dev/null; then
+    elif command -v exa >/dev/null 2>&1; then
       exa -l --all --group-directories-first --git
     else
       ls -lah
@@ -283,4 +283,5 @@ preexec() {
 # uninstall by removing these lines or running `tabtab uninstall sls`
 [[ -f /home/asmsuechan/src/morioka-lab/newtype_website/node_modules/tabtab/.completions/sls.zsh ]] && . /home/asmsuechan/src/morioka-lab/newtype_website/node_modules/tabtab/.completions/sls.zsh
 
-source ~/.zprofile
+# Note: .zprofile is automatically loaded by zsh before .zshrc
+# No need to source it again here

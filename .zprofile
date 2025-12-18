@@ -2,6 +2,21 @@
 # Path Configuration
 #=============================================================================
 
+# Homebrew - set path first (supports custom installation locations)
+if [ -d "$HOME/homebrew" ]; then
+  # Custom Homebrew location
+  export PATH="$HOME/homebrew/bin:$HOME/homebrew/sbin:$PATH"
+  export HOMEBREW_PREFIX="$HOME/homebrew"
+elif [ -d "/opt/homebrew" ]; then
+  # Apple Silicon default
+  export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
+  export HOMEBREW_PREFIX="/opt/homebrew"
+elif [ -d "/usr/local/Homebrew" ]; then
+  # Intel Mac default
+  export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
+  export HOMEBREW_PREFIX="/usr/local"
+fi
+
 # Go
 export GOPATH=$HOME/go
 export PATH=/usr/local/git/bin:/bin:/usr/local/bin:/usr/bin:$GOPATH/bin:${PATH}
@@ -12,26 +27,30 @@ if [ -d "/usr/local/go/bin" ]; then
 fi
 
 # direnv
-if command -v direnv &> /dev/null; then
+if command -v direnv >/dev/null 2>&1; then
   eval "$(direnv hook zsh)"
 fi
 
 # rbenv
-if command -v rbenv &> /dev/null; then
+if command -v rbenv >/dev/null 2>&1; then
   export PATH="$HOME/.rbenv/bin:$PATH"
   eval "$(rbenv init -)"
 elif [ -d "$HOME/.rbenv" ]; then
   export PATH="$HOME/.rbenv/bin:$PATH"
-  eval "$(rbenv init -)"
+  if [ -x "$HOME/.rbenv/bin/rbenv" ]; then
+    eval "$(rbenv init -)"
+  fi
 fi
 
 # nodenv
-if command -v nodenv &> /dev/null; then
+if command -v nodenv >/dev/null 2>&1; then
   export PATH="$HOME/.nodenv/bin:$PATH"
   eval "$(nodenv init -)"
 elif [ -d "$HOME/.nodenv" ]; then
   export PATH="$HOME/.nodenv/bin:$PATH"
-  eval "$(nodenv init -)"
+  if [ -x "$HOME/.nodenv/bin/nodenv" ]; then
+    eval "$(nodenv init -)"
+  fi
 fi
 
 # Postgres.app
@@ -115,7 +134,7 @@ function history-peco() {
 
 # exa (modern ls replacement) - already configured in .zshrc with cdls
 # Kept here for direct ls usage
-if command -v eza &> /dev/null; then
+if command -v eza >/dev/null 2>&1; then
   alias ls='eza --icons'
   alias l='eza -l --all --group-directories-first --git --icons'
   alias ll='eza -l --all --all --group-directories-first --git --icons'
@@ -124,7 +143,7 @@ if command -v eza &> /dev/null; then
   alias llt='eza -lT --git-ignore --level=2 --group-directories-first --icons'
   alias lT='eza -T --git-ignore --level=4 --group-directories-first --icons'
   alias tree='eza -T --icons'
-elif command -v exa &> /dev/null; then
+elif command -v exa >/dev/null 2>&1; then
   alias ls='exa'
   alias l='exa -l --all --group-directories-first --git'
   alias ll='exa -l --all --all --group-directories-first --git'
@@ -138,7 +157,7 @@ else
 fi
 
 # bat (modern cat with syntax highlighting)
-if command -v bat &> /dev/null; then
+if command -v bat >/dev/null 2>&1; then
   alias cat='bat --style=auto'
   alias bathelp='bat --plain --language=help'
   help() {
@@ -147,29 +166,29 @@ if command -v bat &> /dev/null; then
 fi
 
 # fd (modern find)
-if command -v fd &> /dev/null; then
+if command -v fd >/dev/null 2>&1; then
   alias find='fd'
 fi
 
 # ripgrep (modern grep)
-if command -v rg &> /dev/null; then
+if command -v rg >/dev/null 2>&1; then
   alias grep='rg'
 fi
 
 # delta (modern diff for git)
-if command -v delta &> /dev/null; then
+if command -v delta >/dev/null 2>&1; then
   export GIT_PAGER='delta'
 fi
 
 # Modern du alternative
-if command -v dust &> /dev/null; then
+if command -v dust >/dev/null 2>&1; then
   alias du='dust'
 fi
 
 # Modern top alternative
-if command -v btop &> /dev/null; then
+if command -v btop >/dev/null 2>&1; then
   alias top='btop'
-elif command -v htop &> /dev/null; then
+elif command -v htop >/dev/null 2>&1; then
   alias top='htop'
 fi
 
@@ -221,14 +240,16 @@ alias dcup='docker-compose up'
 # alias 'pip-install'='docker run -it -v `pwd`/:/src -w /src python pip install --target=/src/.pip'
 
 # pyenv
-if command -v pyenv &> /dev/null; then
+if command -v pyenv >/dev/null 2>&1; then
   export PYENV_ROOT="$HOME/.pyenv"
   export PATH="$PYENV_ROOT/bin:$PATH"
   eval "$(pyenv init -)"
 elif [ -d "$HOME/.pyenv" ]; then
   export PYENV_ROOT="$HOME/.pyenv"
   export PATH="$PYENV_ROOT/bin:$PATH"
-  eval "$(pyenv init -)"
+  if [ -x "$PYENV_ROOT/bin/pyenv" ]; then
+    eval "$(pyenv init -)"
+  fi
 fi
 
 # Rust/Cargo
@@ -239,6 +260,9 @@ fi
 export TERM='xterm-256color'
 
 # Yarn global bin
-if command -v yarn &> /dev/null; then
-  export PATH="$PATH:$(yarn global bin)"
+if command -v yarn >/dev/null 2>&1; then
+  YARN_GLOBAL_BIN="$(yarn global bin 2>/dev/null)"
+  if [ -n "$YARN_GLOBAL_BIN" ]; then
+    export PATH="$PATH:$YARN_GLOBAL_BIN"
+  fi
 fi
