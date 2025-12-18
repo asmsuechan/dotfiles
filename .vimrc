@@ -1,285 +1,181 @@
+"=============================================================================
+" 基本設定 (Basic Settings)
+"=============================================================================
 set nocompatible
-"swapfileを作成しない
-set noswapfile
-set nobackup
-set writebackup
-"編集外でファイルの変更があった時、自動で更新
-set autoread
-"Backspaceキーの設定
-set backspace=indent,eol,start
-"行頭行末の左右移動で行をまたぐ
-set whichwrap=b,s,h,l,<,>,[,]
-"右下に表示される行、列の番号を表示する
-set ruler
-"対応括弧をハイライト表示する
-set showmatch
-" 行を強調表示
-"set cursorline
-"検索結果をハイライト表示する
-set hlsearch
-"マウス操作を有効にする
-set mouse=a
-"OSのクリップボードを使う
-
-"ステータスラインの設定
-set laststatus=2
-"itchyny/lightline.vimに任せた
-"set statusline=%<%f\ %m%r%h%w
-"set statusline+=%{'['.(&fenc!=''?&fenc:&enc).']'}
-"set statusline+=%=%l/%L,%c%V%8P
-"set statusline=%F%m%r%h%w
-
-"ビープ音を鳴らさない
-set visualbell t_vb=
-
-inoremap jj <ESC>
-"入力モード中に素早くjjと入力した場合はESCとみなす
-vnoremap v $h
-
-nnoremap x "_x
-nnoremap s "_s
-nnoremap <ESC><ESC> :nohl<CR>
-"hi MatchParen ctermbg=1
-let loaded_matchparen = 1
-"hi MatchParen ctermfg=White ctermbg=Yellow
-
-"文字コードをUTF-8にする
 set encoding=UTF-8
 set fileencoding=UTF-8
 set termencoding=UTF-8
 
+" バックアップ・スワップファイル設定
+set noswapfile
+set nobackup
+set writebackup
 
-"表示設定
-syntax on
-set title
+" 編集反映と表示
+set autoread            " 外部での変更を自動検知
+set number              " 行番号表示
+set ruler               " ルーラー表示
+set showmatch           " 括弧の対応表示
+set laststatus=2        " ステータスラインを常に表示
+set title               " タイトルを表示
 set titlestring=vim\ \|\ %-25.55F\ %a%r%m titlelen=70
-"行番号の表示
-set number
-"goではタブをスペースに変換しない
-if expand("%:e") !~ "go"
-  set expandtab
-endif
-"インデント幅=2
-set shiftwidth=2
-"タブ文字幅=2
-set tabstop=2
-set autoindent
-"改行時に前のインデントを継続する
-"goのファイルで保存した時にカーソルが移動する原因はこいつだったのでコメントイン
-"autocmd BufWritePre * :%s/\t/  /ge
+set hidden              " バッファを保存せずに切り替え可能にする
+set updatetime=300      " 更新時間を短くする（GitGutterやCocのために重要）
+set shortmess+=c        " 補完メニューのメッセージを抑制
 
-"スペース+.で.vimrcを開くようにする
-"nnoremap <Space>. :<C-u>tabedit $HOME/.vimrc<CR>
+" インデント・タブ設定
+set expandtab           " タブをスペースに変換
+set shiftwidth=2        " 自動インデント幅
+set tabstop=2           " タブ文字幅
+set autoindent          " 自動インデント
+set backspace=indent,eol,start
+set whichwrap=b,s,h,l,<,>,[,]
 
-"カラースキーマ
-" colorscheme molokai
-" colorscheme jellybeans
-" colorscheme happy_hacking
-" colorscheme perun
-" colorscheme blue-mood
-colorscheme hybrid
-let g:molokai_original = 1
-let g:rehash256 = 1
-set background=dark
+" Go言語用の例外設定 (Goはタブ推奨のため)
+autocmd FileType go setlocal noexpandtab tabstop=4 shiftwidth=4
 
-imap <C-j> <nop>
-set pastetoggle=<C-j>
+" 検索・ハイライト
+set hlsearch
+set matchtime=1         " 対応括弧の表示秒数短縮
 
-if !isdirectory(expand("~/.vim/bundle/neobundle.vim/"))
-    echo "install neobundle..."
-    " vim からコマンド呼び出しているだけ neobundle.vim のクローン
-    :call system("git clone git://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim")
-endif
-" runtimepath の追加は必須
-set runtimepath+=~/.vim/bundle/neobundle.vim/
+" ビープ音無効化
+set visualbell t_vb=
+set noerrorbells
 
+" マウス・クリップボード
+set mouse=a
+set clipboard=unnamed   " OSのクリップボードと共有
 
-"=====neobundle bigin=====
-call neobundle#begin(expand('~/.vim/bundle'))
-let g:neobundle_default_git_protocol='https'
+"=============================================================================
+" キーマッピング (Key Mappings)
+"=============================================================================
+" jj で ESC
+inoremap jj <ESC>
 
-" neobundleのプラグイン
-NeoBundleFetch 'Shougo/neobundle.vim'
-NeoBundle 'nanotech/jellybeans.vim'
-NeoBundle 'Shougo/unite.vim'
-NeoBundle 'Shougo/vimfiler'
-NeoBundle 'Shougo/vimproc'
-NeoBundle 'scrooloose/nerdtree'
-NeoBundle 'tpope/vim-endwise'
-NeoBundle 'nathanaelkane/vim-indent-guides'
-NeoBundle 'itchyny/lightline.vim'
-NeoBundle 'airblade/vim-gitgutter'
-NeoBundle 'cohama/agit.vim'
-NeoBundle 'Shougo/neocomplete.vim'
-NeoBundle 'fatih/vim-go'
-NeoBundle 'mattn/vim-sonots'
-NeoBundle 'bronson/vim-trailing-whitespace'
-NeoBundle 'Shougo/neocomplcache'
-NeoBundle 'Shougo/neosnippet'
-NeoBundle 'Shougo/neosnippet-snippets'
-NeoBundle 'mattn/sonictemplate-vim'
-"NeoBundle 'darthmall/vim-vue'
-NeoBundleLazy 'jelera/vim-javascript-syntax',{'autoload':{'filetypes':['javascript']}}
-NeoBundle 'kchmck/vim-coffee-script'
-NeoBundle 'Chiel92/vim-autoformat'
-NeoBundle 'mattn/emmet-vim'
-NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'tyru/open-browser-github.vim'
-NeoBundle 'tyru/open-browser.vim'
-"NeoBundle 'scrooloose/syntastic'
-" " カラースキーマの選択
-NeoBundle 'ujihisa/unite-colorscheme'
-NeoBundle 'sophacles/vim-processing'
-" NeoBundle 'jistr/vim-nerdtree-tabs'
-NeoBundle 'sophacles/vim-processing'
-NeoBundle 'leafgarland/typescript-vim'
-"NeoBundle 'soramugi/auto-ctags.vim'
-"NeoBundle 'beautify-web/js-beautify'
-"NeoBundle 'leafgarland/typescript-vim'
-NeoBundle 'peitalin/vim-jsx-typescript'
-NeoBundle 'maxmellon/vim-jsx-pretty'
-NeoBundle 'Valloric/YouCompleteMe'
-let g:ycm_global_ycm_extra_conf = "~/.vim/rc/.ycm_extra_conf.py"
-let g:ycm_min_num_of_chars_for_completion = 1
+" 行末まで選択の微調整
+vnoremap v $h
 
-"----------各プラグインの説明----------
-"[vimfiler]=:VimFilerで起動するファイラー
-"[nerdtree]=:NERDTreeToggleで起動するファイラー、VimFilerよりよく使う
-"[vim-endwise]=rubyでdef入力した時endを自動入力
-"[vim-indent-guides]=インデントを見やすくする
-"[lightline.vim]=ステータスラインに色をつける
-"[vim-gitgutter]=gitの差分を表示する
-"[agit.vim]=git logを見やすく
-"--------------------------------------
+" 削除操作でレジスタを汚さない
+nnoremap x "_x
+nnoremap s "_s
 
-" vimを立ち上げたときに、自動的にvim-indent-guidesをオンにする
-"let g:indent_guides_enable_on_vim_startup = 1
+" ESC連打でハイライト解除
+nnoremap <ESC><ESC> :nohl<CR>
 
-"NERTTreeをCtr+Eで開くようにする
-nnoremap <silent><C-e> :NERDTreeToggle<CR>
+" 定義ジャンプ (Coc.nvimに任せるため後述の設定を使用推奨だが、既存動作を維持)
+" nnoremap <silent>gd :Ag <C-r><C-w><CR> 
+" ※ Agコマンドがない場合に備え、Cocの定義ジャンプを推奨します（下部参照）
 
-"gitgutterのキーマップを設定
-"nnoremap <silent> ,gt :<C-u>gitGutterToggle<CR>
-nnoremap <silent> ,gl :<C-u>GitGutterLineHighlightsToggle<CR>
-
-""neocompleteの設定
-"let g:neocomplete#enable_at_startup = 1
-"let g:acp_enableAtStartup = 0
-"let g:neocomplete#enable_smart_case = 1
-"let g:neocomplete#sources#syntax#min_keyword_length = 3
-"let g:neocomplete#sources#dictionary#dictionaries = {
-"    \ 'default' : '',
-"    \ 'vimshell' : $HOME.'/.vimshell_hist',
-"    \ 'scheme' : $HOME.'/.gosh_completions'
-"        \ }
-
-
-" vimrc に記述されたプラグインでインストールされていないものがないかチェックする
-NeoBundleCheck
-call neobundle#end()
-"=====neobundle end=====
-
-"vim-go用の設定
-"セーブ時にgo fmtを実行しない
-"=>:w打つたびにカーソルが移動してめんどくさいから
-"=>代わりに下で実装している
-"let g:go_fmt_autosave = 0
-let g:go_fmt_fail_silently = 0
-"競プロ用テンプレートファイル
-"~/.vim/bundle/vim-go/templates/default.go
-if filereadable(expand('~/.vim/bundle/vim-go/templates/default.go'))
-  let g:go_template_file = "default.go"
-endif
-
-"*.goファイルの保存時にgo fmtをかける
-"コマンド打つ場所の高さを2行にする
-"set cmdheight=2
-"function! _CheckGoCode()
-"  let currentfile = getcwd() . '/' . expand('%')
-"  exec ":silent ! go fmt " . currentfile
-"endfunction
-"command! CheckCode call _CheckGoCode()
-"autocmd BufWritePost *.go :CheckCode
-"let g:go_fmt_command = "goimports"
-
-"markdown用の設定
-autocmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} set filetype=markdown
-autocmd BufNewFile,BufRead ISSUE_EDITMSG set filetype=markdown
-
-"snippets用の設定
-imap <C-k> <Plug>(neosnippet_expand_or_jump)
-smap <C-k> <Plug>(neosnippet_expand_or_jump)
-xmap <C-k> <Plug>(neosnippet_expand_target)
-let g:neosnippet#snippets_directory='~/dotfiles/snippets/'
-
-"sonictemplate-vim用の設定
-let g:sonictemplate_vim_template_dir = [
-      \ '~/dotfiles/templates'
-      \]
-"js用の設定
-"vuejsはhtmlのシンタックスハイライトにする
-autocmd BufNewFile,BufRead *.{html,htm,vue*} set filetype=html
-
-"gcommit-and-fixup用の設定
-"自動で上書き保存して閉じる
-function AutoSaveIfRebaseFixup()
-  if match(getline(2), "fixup") == 0
-    exec ":wq"
-  endif
-endfunction
-
-if expand("%:t:r") == 'git-rebase-todo' && match(getline(2), "fixup")
-  autocmd BufNewFile,BufRead git-rebase-todo call AutoSaveIfRebaseFixup()
-endif
-
-"ヴィジュアルモードでCtl+cしたらクリップボードにコピーされるよう設定
+" ビジュアルモードで Ctrl+c (Mac用ハック: 基本的には clipboard=unnamed で動くはずですが既存維持)
 map <C-c> :!pbcopy;pbpaste<CR><CR>
 
-"vim起動時は常にNERDTreeを表示する
-autocmd VimEnter * execute 'NERDTree'
-
-" NERDTreeで隠しファイルを常に表示する
-let NERDTreeShowHidden = 1
-
-"NERDTree起動時にブックマークを表示する
-let NERDTreeShowBookmarks=1
-
-"デフォルトでツリーを表示させる
-let g:nerdtree_tabs_open_on_console_startup=1
-
-"他のバッファをすべて閉じた時にNERDTreeが開いていたらNERDTreeも一緒に閉じる。
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-
-"NERDTreeを新しいタブを開いた時も開きっぱなしにする
-"'jistr/vim-nerdtree-tabs'だと閉じる時にNERDTreeのサイズが変わってしまって使いにくかったので
-autocmd BufWinEnter * NERDTreeMirror
-
+" タブ操作
 nnoremap <C-p> gt
 nnoremap <C-n> gT
 nnoremap <C-c> :tabclose<CR>
-"nnoremap <C-o> :OpenGithubFile<CR>
 
-"set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
+" ペーストモード切り替え
+imap <C-j> <nop>
+set pastetoggle=<C-j>
 
-"新しいタブを開いたときなどにカーソルをファイルの方にする
-autocmd VimEnter * NERDTree
-autocmd VimEnter * wincmd p
+" 0レジスタからのペースト
+noremap PP "0p
 
-"シンタックスチェク
-"'scrooloose/syntastic'の設定
-"vueでうまく効かないしよくvimが落ちるようになったので一時的にコメントアウト
-"set statusline+=%#warningmsg#
-"set statusline+=%{SyntasticStatuslineFlag()}
-"set statusline+=%*
-"
-"let g:syntastic_always_populate_loc_list = 1
-"let g:syntastic_auto_loc_list = 1
-"command Reek SyntasticCheck reek
+"=============================================================================
+" プラグイン管理 (vim-plug)
+"=============================================================================
+" 自動インストール設定
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
 
-filetype plugin indent on
-set t_Co=256
+call plug#begin('~/.vim/plugged')
 
-"lightlineの設定
+" --- 外観・UI ---
+Plug 'nanotech/jellybeans.vim'
+Plug 'w0ng/vim-hybrid'
+Plug 'itchyny/lightline.vim'
+Plug 'nathanaelkane/vim-indent-guides'
+
+" --- ユーティリティ ---
+Plug 'scrooloose/nerdtree'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'tpope/vim-endwise'            " Ruby等のend自動補完
+Plug 'bronson/vim-trailing-whitespace'
+Plug 'tyru/open-browser.vim'
+Plug 'tyru/open-browser-github.vim'
+Plug 'mattn/emmet-vim'
+
+" --- Git連携 ---
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rhubarb'            " GitHub support for fugitive
+Plug 'shumphrey/fugitive-gitlab.vim'
+Plug 'airblade/vim-gitgutter'
+Plug 'cohama/agit.vim'
+
+" --- 言語サポート・シンタックス ---
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'leafgarland/typescript-vim'
+Plug 'peitalin/vim-jsx-typescript'
+Plug 'maxmellon/vim-jsx-pretty'
+Plug 'kchmck/vim-coffee-script'
+Plug 'mattn/vim-sonots'             " jbuilder support etc
+
+" --- 補完・LSP (Modernization Core) ---
+" neocomplete/vim-lspの代わりにCocを採用
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+" --- スニペット ---
+" Cocがスニペットも管理できますが、既存の資産を生かすなら以下を維持
+Plug 'Shougo/neosnippet.vim'
+Plug 'Shougo/neosnippet-snippets'
+Plug 'mattn/sonictemplate-vim'
+
+call plug#end()
+
+"=============================================================================
+" プラグイン設定 (Plugin Settings)
+"=============================================================================
+
+" --- ColorScheme ---
+syntax on
+set background=dark
+colorscheme hybrid
+autocmd ColorScheme * highlight LineNr ctermfg=241
+
+" --- NERDTree ---
+nnoremap <silent><C-e> :NERDTreeToggle<CR>
+let NERDTreeShowHidden = 1
+let NERDTreeShowBookmarks = 1
+let g:nerdtree_tabs_open_on_console_startup = 1
+
+" 起動時にNERDTreeを表示し、カーソルをファイルへ移動
+autocmd VimEnter * NERDTree | wincmd p
+
+" タブ切り替え時にNERDTreeの状態を維持
+autocmd BufWinEnter * NERDTreeMirror
+
+" 他のバッファを閉じた時にNERDTreeだけなら終了
+autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+" --- FZF (Uniteの代替) ---
+" Ctrl+p でファイル検索 (VSCodeライク)
+nnoremap <C-p> :Files<CR>
+" Ctrl+f で文字列検索 (Ag/Rg)
+nnoremap <C-f> :Rg<CR>
+
+" --- GitGutter ---
+nnoremap <silent> ,gl :<C-u>GitGutterLineHighlightsToggle<CR>
+
+" --- vim-go ---
+let g:go_fmt_command = "goimports" " gofmtの代わりにgoimportsを使用
+let g:go_fmt_fail_silently = 0
+" 保存時の自動フォーマットはvim-goがデフォルトでやってくれます
+
+" --- Lightline ---
 let g:lightline = {
       \ 'colorscheme': 'seoul256',
       \ 'active': {
@@ -288,40 +184,68 @@ let g:lightline = {
       \ },
       \ 'component_function': {
       \   'filename': 'LightLineFilename',
-      \   'gitbranch': 'fugitive#head'
+      \   'gitbranch': 'FugitiveHead'
       \ }
       \ }
-
 function! LightLineFilename()
   return expand('%')
 endfunction
 
-noremap PP "0p
-"noremap x "_x
-
-"let g:auto_ctags = 1
-"let g:auto_ctags_directory_list = ['.git', '.svn']
-
-"function! _updateCtags()
-"  let tagsFile = getcwd() . '/tags'
-"  exec ":silent ! ctags -R --extra=+fq && sed -i -e 's/^\\([a-zA-Z0-9]*\\)\\.vue/\\1/' " . tagsFile . " && sed -i -e 's/^\\([a-zA-Z0-9]*\\)\\.js/\\1/' " . tagsFile
-"  " *.vueファイルの.vueの部分をsedで取り除く
-"endfunction
-"command! UpdateCtags call _updateCtags()
-"autocmd BufWritePost * :UpdateCtags
-
-"yankをクリップボードにも書き込む
-set clipboard=unnamedplus
-
+" --- JSX/TSX ---
+let g:vim_jsx_pretty_colorful_config = 1
 autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescript.tsx
-"" dark red
-"hi tsxTagName guifg=#E06C75
-"
-"" orange
-"hi tsxCloseString guifg=#F99575
-"hi tsxCloseTag guifg=#F99575
-"hi tsxCloseTagName guifg=#F99575
-"hi tsxAttributeBraces guifg=#F99575
-"hi tsxEqual guifg=#F99575
 
-let g:vim_jsx_pretty_colorful_config = 1 " default 0
+" --- SonicTemplate ---
+let g:sonictemplate_vim_template_dir = ['~/dotfiles/templates']
+
+" --- Coc.nvim (補完・LSP設定) ---
+" 既存の gd (Go to definition) を Coc で上書き (より正確です)
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" K でドキュメント表示
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+" Tabで補完を選択
+inoremap <silent><expr> <TAB>
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+
+function! CheckBackspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Enterで補完決定
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+"=============================================================================
+" その他の自動処理 (Autocmds)
+"=============================================================================
+" Markdown設定
+autocmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} set filetype=markdown
+autocmd BufNewFile,BufRead ISSUE_EDITMSG set filetype=markdown
+
+" Vue/HTML設定
+autocmd BufNewFile,BufRead *.{html,htm,vue*} set filetype=html
+
+" gcommit-and-fixup用の設定 (既存維持)
+function! AutoSaveIfRebaseFixup()
+  if match(getline(2), "fixup") == 0
+    exec ":wq"
+  endif
+endfunction
+if expand("%:t:r") == 'git-rebase-todo' && match(getline(2), "fixup")
+  autocmd BufNewFile,BufRead git-rebase-todo call AutoSaveIfRebaseFixup()
+endif
