@@ -1,34 +1,62 @@
-export ZPLUG_HOME=~/.zplug
-source $ZPLUG_HOME/init.zsh
+#=============================================================================
+# Plugin Manager (zplug) - Modern ZSH plugins
+#=============================================================================
+# Set ZPLUG_HOME (check Homebrew first, then default location)
+if [[ -d "/usr/local/opt/zplug" ]]; then
+  # Homebrew on Intel Mac
+  export ZPLUG_HOME="/usr/local/opt/zplug"
+elif [[ -d "$HOME/homebrew/opt/zplug" ]]; then
+  # Homebrew in custom location
+  export ZPLUG_HOME="$HOME/homebrew/opt/zplug"
+elif [[ -d "/opt/homebrew/opt/zplug" ]]; then
+  # Homebrew on Apple Silicon
+  export ZPLUG_HOME="/opt/homebrew/opt/zplug"
+elif [[ -d "$HOME/.zplug" ]]; then
+  # Manual installation
+  export ZPLUG_HOME="$HOME/.zplug"
+else
+  # Not installed - will auto-install
+  export ZPLUG_HOME="$HOME/.zplug"
+  if [[ ! -d $ZPLUG_HOME ]]; then
+    echo "Installing zplug..."
+    git clone https://github.com/zplug/zplug "$ZPLUG_HOME"
+  fi
+fi
 
-zplug "zsh-users/zsh-syntax-highlighting"
-zplug "zsh-users/zsh-history-substring-search"
-zplug "junegunn/dotfiles", at:d3a93d8, as:command, use:bin/vimcat
-zplug "tcnksm/docker-alias", use:zshrc, as:plugin
-zplug "k4rthik/git-cal", as:command, frozen:1
-zplug "plugins/git", from:oh-my-zsh
-zplug "tj/n", hook-build:"make install"
-zplug "b4b4r07/enhancd", at:v1
-zplug "mollifier/anyframe", at:4c23cb60
-zplug "b4b4r07/emoji-cli"
-zplug "b4b4r07/79ee61f7c140c63d2786", \
-    from:gist, \
-    as:command, \
-    use:get_last_pane_path.sh
-zplug "junegunn/fzf-bin", \
-    as:command, \
-    from:gh-r, \
-    rename-to:fzf
-# 入力途中に候補をうっすら表示
+# Source zplug
+if [[ -f "$ZPLUG_HOME/init.zsh" ]]; then
+  source "$ZPLUG_HOME/init.zsh"
+else
+  echo "Warning: zplug not found at $ZPLUG_HOME"
+fi
+
+# Syntax highlighting (must be loaded before autosuggestions)
+zplug "zsh-users/zsh-syntax-highlighting", defer:2
+zplug "zsh-users/zsh-history-substring-search", defer:3
+
+# Better completions
+zplug "zsh-users/zsh-completions"
+
+# Auto-suggestions with better styling
 zplug "zsh-users/zsh-autosuggestions"
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=240'
-zplug "mollifier/zload"
-zplug "willghatch/zsh-hooks"
-zplug "RobSis/zsh-completion-generator", if:"GENCOMPL_FPATH=$HOME/.zsh/complete"
-zplug "supercrabtree/k"
+ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 
+# Enhanced cd (enhancd)
+zplug "b4b4r07/enhancd", use:init.sh
+
+# fzf integration
+zplug "junegunn/fzf", use:"shell/*.zsh", defer:2
+
+# Docker aliases
+zplug "tcnksm/docker-alias", use:zshrc, as:plugin
+
+# Git utilities
+zplug "plugins/git", from:oh-my-zsh
+
+# Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then
-    printf "Install? [y/N]: "
+    printf "Install missing plugins? [y/N]: "
     if read -q; then
         echo; zplug install
     fi
@@ -63,60 +91,69 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 autoload -U compinit; compinit
 autoload -Uz colors; colors
 
-# from https://qiita.com/nishina555/items/f4f1ddc6ed7b0b296825
-# ブランチ名を色付きで表示させるメソッド
-function rprompt-git-current-branch {
-  local branch_name st branch_status
+#=============================================================================
+# Prompt Configuration - Starship (Modern, fast, customizable prompt)
+#=============================================================================
+# Initialize Starship if available, otherwise fallback to custom prompt
+if command -v starship &> /dev/null; then
+  eval "$(starship init zsh)"
+else
+  echo "Tip: Install Starship for a better prompt experience: brew install starship"
 
-  if [ ! -e  ".git" ]; then
-    # gitで管理されていないディレクトリは何も返さない
-    return
-  fi
-  branch_name=`git rev-parse --abbrev-ref HEAD 2> /dev/null`
-  st=`git status 2> /dev/null`
-  if [[ -n `echo "$st" | grep "^nothing to"` ]]; then
-    # 全てcommitされてクリーンな状態
-    branch_status="%F{green}"
-  elif [[ -n `echo "$st" | grep "^Untracked files"` ]]; then
-    # gitに管理されていないファイルがある状態
-    branch_status="%F{red}?"
-  elif [[ -n `echo "$st" | grep "^Changes not staged for commit"` ]]; then
-    # git addされていないファイルがある状態
-    branch_status="%F{red}+"
-  elif [[ -n `echo "$st" | grep "^Changes to be committed"` ]]; then
-    # git commitされていないファイルがある状態
-    branch_status="%F{yellow}!"
-  elif [[ -n `echo "$st" | grep "^rebase in progress"` ]]; then
-    # コンフリクトが起こった状態
-    echo "%F{red}!(no branch)"
-    return
-  else
-    # 上記以外の状態の場合は青色で表示させる
-    branch_status="%F{blue}"
-  fi
-  # ブランチ名を色付きで表示する
-  echo "${branch_status}[$branch_name]"
-}
+  # Fallback: Original custom prompt (maintained for compatibility)
+  function rprompt-git-current-branch {
+    local branch_name st branch_status
 
-# プロンプトが表示されるたびにプロンプト文字列を評価、置換する
-setopt prompt_subst
+    if [ ! -e  ".git" ]; then
+      return
+    fi
+    branch_name=`git rev-parse --abbrev-ref HEAD 2> /dev/null`
+    st=`git status 2> /dev/null`
+    if [[ -n `echo "$st" | grep "^nothing to"` ]]; then
+      branch_status="%F{green}"
+    elif [[ -n `echo "$st" | grep "^Untracked files"` ]]; then
+      branch_status="%F{red}?"
+    elif [[ -n `echo "$st" | grep "^Changes not staged for commit"` ]]; then
+      branch_status="%F{red}+"
+    elif [[ -n `echo "$st" | grep "^Changes to be committed"` ]]; then
+      branch_status="%F{yellow}!"
+    elif [[ -n `echo "$st" | grep "^rebase in progress"` ]]; then
+      echo "%F{red}!(no branch)"
+      return
+    else
+      branch_status="%F{blue}"
+    fi
+    echo "${branch_status}[$branch_name]"
+  }
 
-# vimっぽいキーバインドにする
-terminfo_down_sc=$terminfo[cud1]$terminfo[cuu1]$terminfo[sc]$terminfo[cud1]
-function zle-line-init zle-keymap-select {
-    VIM_NORMAL="%K{green}%F{black}%k%f%K{green}%F{black} % -- NORMAL -- %k%f%K{black}%F{green}%k%f"
-    VIM_INSERT="%K{240}%F{black}%k%f%K{240}%F{189} % -- INSERT -- %k%f%K{black}%F{240}%k%f"
-    PS1_2="${${KEYMAP/vicmd/$VIM_NORMAL}/(main|viins)/$VIM_INSERT}"
-    # PS1=" %{${fg[yellow]}%}%~ %{${fg[red]}%}%# %{${reset_color}%}"
-    PS1="%{$terminfo_down_sc$PS1_2$terminfo[rc]$fg[cyan]%}%{${fg[yellow]}%}%~ %F{red}>%f "
-    RPS1='`rprompt-git-current-branch`'
-    zle reset-prompt
-}
-preexec () { print -rn -- $terminfo[el]; }
+  setopt prompt_subst
+  PROMPT="%{${fg[yellow]}%}%~ %F{red}>%f "
+  RPROMPT='`rprompt-git-current-branch`'
+  PROMPT2="%{${fg[yellow]}%} %_ > %{${reset_color}%}"
+  SPROMPT="%{${fg[red]}%}correct: %R -> %r ? [n,y,a,e] %{${reset_color}%}"
+fi
+
+#=============================================================================
+# Vi Mode Keybindings (Preserved from original config)
+#=============================================================================
 bindkey -v
 bindkey -M viins 'jj' vi-cmd-mode
-zle -N zle-line-init
-zle -N zle-keymap-select
+
+# Show vi mode indicator if not using Starship
+if ! command -v starship &> /dev/null; then
+  terminfo_down_sc=$terminfo[cud1]$terminfo[cuu1]$terminfo[sc]$terminfo[cud1]
+  function zle-line-init zle-keymap-select {
+      VIM_NORMAL="%K{green}%F{black}%k%f%K{green}%F{black} % -- NORMAL -- %k%f%K{black}%F{green}%k%f"
+      VIM_INSERT="%K{240}%F{black}%k%f%K{240}%F{189} % -- INSERT -- %k%f%K{black}%F{240}%k%f"
+      PS1_2="${${KEYMAP/vicmd/$VIM_NORMAL}/(main|viins)/$VIM_INSERT}"
+      PS1="%{$terminfo_down_sc$PS1_2$terminfo[rc]$fg[cyan]%}%{${fg[yellow]}%}%~ %F{red}>%f "
+      RPS1='`rprompt-git-current-branch`'
+      zle reset-prompt
+  }
+  preexec () { print -rn -- $terminfo[el]; }
+  zle -N zle-line-init
+  zle -N zle-keymap-select
+fi
 
 # 補完候補のメニュー選択で、矢印キーの代わりにhjklで移動出来るようにする。
 zmodload zsh/complist
@@ -125,20 +162,7 @@ bindkey -M menuselect 'h' vi-backward-char
 bindkey -M menuselect 'k' vi-up-line-or-history
 bindkey -M menuselect 'l' vi-forward-char
 
-# gitブランチを表示する
-autoload -Uz vcs_info
-zstyle ':vcs_info:*' formats '[%b]'
-zstyle ':vcs_info:*' actionformats '[%b|%a]'
-precmd () {
-    psvar=()
-    LANG=en_US.UTF-8 vcs_info
-    [[ -n "$vcs_info_msg_0_" ]] && psvar[1]="$vcs_info_msg_0_"
-}
-RPROMPT="%1(v|%F{blue}%1v%f|)"
-# プロンプト
-# PROMPT="%{${fg[green]}%}%n@%m %{${fg[yellow]}%}%~ %{${fg[red]}%}%# %{${reset_color}%}"
-PROMPT2="%{${fg[yellow]}%} %_ > %{${reset_color}%}"
-SPROMPT="%{${fg[red]}%}correct: %R -> %r ? [n,y,a,e] %{${reset_color}%}"
+# Note: Prompt configuration moved to Starship section above
 
 # history周り
 export HISTFILE=$HOME/.zsh_history
@@ -216,8 +240,17 @@ esac
 [ -f $HOME/.travis/travis.sh ] && source $HOME/.travis/travis.sh
 
 # 読み込み順番の問題で色がつかなかったので.zprofileから移動
+# cdしたら自動的にlsを実行
 function cdls () {
-  \cd "$@" && exa -l --all --group-directories-first --git
+  \cd "$@" && {
+    if command -v eza &> /dev/null; then
+      eza -l --all --group-directories-first --git --icons
+    elif command -v exa &> /dev/null; then
+      exa -l --all --group-directories-first --git
+    else
+      ls -lah
+    fi
+  }
 }
 alias cd='cdls'
 

@@ -1,14 +1,137 @@
+#=============================================================================
+# Git Configuration - Modern Setup
+#=============================================================================
+
 [user]
   name = asmsuechan
   email = suenagaryoutaabc@gmail.com
 
 [core]
-  editor=/usr/local/bin/vim
+  editor = /usr/local/bin/vim
+  pager = delta  # Modern diff viewer (fallback to less if not installed)
+  autocrlf = input
+  whitespace = trailing-space,space-before-tab
 
+[init]
+  defaultBranch = main
+
+[pull]
+  rebase = false
+
+[push]
+  default = current
+  autoSetupRemote = true
+
+[fetch]
+  prune = true
+
+[rebase]
+  autoStash = true
+
+[merge]
+  conflictStyle = diff3
+
+#=============================================================================
+# Delta Configuration (Modern diff viewer)
+# Install: brew install git-delta
+#=============================================================================
+[delta]
+  navigate = true
+  light = false
+  line-numbers = true
+  side-by-side = true
+  syntax-theme = Dracula
+
+[interactive]
+  diffFilter = delta --color-only
+
+#=============================================================================
+# Aliases
+#=============================================================================
 [alias]
+  # Basic shortcuts
+  st = status
+  co = checkout
+  br = branch
+  ci = commit
+  cp = cherry-pick
+
+  # Commit
   cancel = reset --soft HEAD^
+  amend = commit --amend
+
+  # Branch management
+  branches = branch -a
+  recent = branch --sort=-committerdate
+
+  # Log with pretty format
+  l = log --oneline --graph --decorate
+  ll = log --graph --pretty=format:'%C(yellow)%h%Creset -%C(red)%d%Creset %s %C(green)(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+  lg = log --graph --all --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --abbrev-commit --date=relative
+
+  # Diff
+  d = diff
+  dc = diff --cached
+  ds = diff --stat
+
+  # Show files in last commit
+  last = log -1 HEAD --stat
+
+  # Undo last commit but keep changes
+  undo = reset HEAD~1 --mixed
+
+  # Clean up merged branches
+  cleanup = "!git branch --merged | grep -v '\\*\\|main\\|master\\|develop' | xargs -n 1 git branch -d"
+
+  # Interactive rebase with the given number of latest commits
+  reb = "!r() { git rebase -i HEAD~$1; }; r"
+
+  # Find branches containing commit
+  fb = "!f() { git branch -a --contains $1; }; f"
+
+  # Find commits by commit message
+  fm = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short --grep=$1; }; f"
+
+  # Vim integration
   vim = !vim
 
+#=============================================================================
+# Color Settings
+#=============================================================================
+[color]
+  ui = auto
+  branch = auto
+  diff = auto
+  status = auto
+
+[color "branch"]
+  current = yellow reverse
+  local = yellow
+  remote = green
+
+[color "diff"]
+  meta = yellow bold
+  frag = magenta bold
+  old = red bold
+  new = green bold
+
+[color "status"]
+  added = green
+  changed = yellow
+  untracked = red
+
+#=============================================================================
+# Tig Configuration
+#=============================================================================
 [tig "bind"]
   generic = g move-first-line
   generic = G move-last-line
+
+#=============================================================================
+# Diff and Merge Tools
+#=============================================================================
+[diff]
+  colorMoved = default
+
+[help]
+  autocorrect = 1

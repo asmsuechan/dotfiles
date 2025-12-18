@@ -1,0 +1,79 @@
+# VSCode Recommended Extensions
+# Install all with: cat extensions.txt | xargs -L 1 code --install-extension
+
+# ===============================================
+# Essential
+# ===============================================
+vscodevim.vim
+eamodio.gitlens
+mhutchie.git-graph
+github.copilot
+github.copilot-chat
+
+# ===============================================
+# Themes & Icons
+# ===============================================
+dracula-theme.theme-dracula
+catppuccin.catppuccin-vsc
+PKief.material-icon-theme
+
+# ===============================================
+# Language Support
+# ===============================================
+
+# JavaScript/TypeScript
+dbaeumer.vscode-eslint
+esbenp.prettier-vscode
+ms-vscode.vscode-typescript-next
+
+# Python
+ms-python.python
+ms-python.vscode-pylance
+ms-python.black-formatter
+
+# Go
+golang.go
+
+# Ruby
+Shopify.ruby-lsp
+castwide.solargraph
+
+# Rust
+rust-lang.rust-analyzer
+
+# YAML/TOML
+redhat.vscode-yaml
+tamasfe.even-better-toml
+
+# Markdown
+yzhang.markdown-all-in-one
+DavidAnson.vscode-markdownlint
+
+# HTML/CSS
+ecmel.vscode-html-css
+bradlc.vscode-tailwindcss
+
+# Docker
+ms-azuretools.vscode-docker
+
+# ===============================================
+# Productivity
+# ===============================================
+usernamehw.errorlens
+christian-kohler.path-intellisense
+christian-kohler.npm-intellisense
+wix.vscode-import-cost
+EditorConfig.EditorConfig
+wayou.vscode-todo-highlight
+alefragnani.project-manager
+formulahendry.auto-rename-tag
+formulahendry.code-runner
+
+# ===============================================
+# Utilities
+# ===============================================
+shardulm94.trailing-spaces
+oderwat.indent-rainbow
+johnpapa.vscode-peacock
+aaron-bond.better-comments
+usernamehw.errorlens

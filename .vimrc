@@ -96,18 +96,28 @@ call plug#begin('~/.vim/plugged')
 " --- 外観・UI ---
 Plug 'nanotech/jellybeans.vim'
 Plug 'w0ng/vim-hybrid'
+Plug 'morhetz/gruvbox'              " 人気のカラースキーム
+Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'catppuccin/vim', { 'as': 'catppuccin' }
 Plug 'itchyny/lightline.vim'
 Plug 'nathanaelkane/vim-indent-guides'
 
 " --- ユーティリティ ---
 Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'  " NERDTreeにGitステータスを表示
+Plug 'ryanoasis/vim-devicons'       " アイコン表示（NERDTree等で使用）
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-endwise'            " Ruby等のend自動補完
+Plug 'tpope/vim-surround'           " 括弧やクォートの操作を簡単に
+Plug 'tpope/vim-commentary'         " コメントアウトを簡単に (gcc, gc)
+Plug 'tpope/vim-repeat'             " . による繰り返しを強化
+Plug 'jiangmiao/auto-pairs'         " 括弧の自動閉じ
 Plug 'bronson/vim-trailing-whitespace'
 Plug 'tyru/open-browser.vim'
 Plug 'tyru/open-browser-github.vim'
 Plug 'mattn/emmet-vim'
+Plug 'preservim/nerdcommenter'      " より強力なコメント機能
 
 " --- Git連携 ---
 Plug 'tpope/vim-fugitive'
@@ -123,6 +133,11 @@ Plug 'peitalin/vim-jsx-typescript'
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'kchmck/vim-coffee-script'
 Plug 'mattn/vim-sonots'             " jbuilder support etc
+
+" --- Markdown Support (メモ書き用途に最適) ---
+Plug 'plasticboy/vim-markdown'      " 強化されたMarkdownサポート
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npx --yes yarn install' }
+Plug 'dhruvasagar/vim-table-mode'   " テーブル作成を簡単に
 
 " --- 補完・LSP (Modernization Core) ---
 " neocomplete/vim-lspの代わりにCocを採用
@@ -162,10 +177,12 @@ autocmd BufWinEnter * NERDTreeMirror
 autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 " --- FZF (Uniteの代替) ---
-" Ctrl+p でファイル検索 (VSCodeライク)
-nnoremap <C-p> :Files<CR>
-" Ctrl+f で文字列検索 (Ag/Rg)
-nnoremap <C-f> :Rg<CR>
+" ,p でファイル検索
+nnoremap <silent> ,p :Files<CR>
+" ,f で文字列検索 (Ag/Rg)
+nnoremap <silent> ,f :Rg<CR>
+" ,b でバッファ検索
+nnoremap <silent> ,b :Buffers<CR>
 
 " --- GitGutter ---
 nnoremap <silent> ,gl :<C-u>GitGutterLineHighlightsToggle<CR>
@@ -230,12 +247,36 @@ endfunction
 " Enterで補完決定
 inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
+" --- Markdown Preview ---
+" Markdownプレビューを開く/閉じる (キーマップは既存と競合しないように設定)
+" 使用方法: :MarkdownPreview でプレビュー開始
+let g:mkdp_auto_start = 0
+let g:mkdp_auto_close = 1
+let g:mkdp_refresh_slow = 0
+let g:mkdp_browser = ''
+let g:mkdp_preview_options = {
+    \ 'mkit': {},
+    \ 'katex': {},
+    \ 'uml': {},
+    \ 'maid': {},
+    \ 'disable_sync_scroll': 0,
+    \ 'sync_scroll_type': 'middle'
+    \ }
+
+" --- vim-markdown設定 ---
+let g:vim_markdown_folding_disabled = 1     " 折りたたみを無効化
+let g:vim_markdown_conceal = 0              " 記号の隠蔽を無効化
+let g:vim_markdown_frontmatter = 1          " YAML front matterをハイライト
+let g:vim_markdown_toc_autofit = 1          " TOCを自動調整
+let g:vim_markdown_new_list_item_indent = 2 " リストアイテムのインデント
+
 "=============================================================================
 " その他の自動処理 (Autocmds)
 "=============================================================================
 " Markdown設定
 autocmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} set filetype=markdown
 autocmd BufNewFile,BufRead ISSUE_EDITMSG set filetype=markdown
+autocmd FileType markdown setlocal spell spelllang=en,cjk  " スペルチェック有効化
 
 " Vue/HTML設定
 autocmd BufNewFile,BufRead *.{html,htm,vue*} set filetype=html

@@ -1,27 +1,50 @@
-GOPATH=$HOME/go
-PATH=/usr/local/git/bin:/bin:/usr/local/bin:/usr/bin:$HOME/.rbenv/bin:$GOPATH/bin:${PATH}
-PATH=$PATH:/usr/local/go/bin
-export PATH
+#=============================================================================
+# Path Configuration
+#=============================================================================
 
-if $(command -v direnv > /dev/null 2>&1);then
+# Go
+export GOPATH=$HOME/go
+export PATH=/usr/local/git/bin:/bin:/usr/local/bin:/usr/bin:$GOPATH/bin:${PATH}
+
+# Go language
+if [ -d "/usr/local/go/bin" ]; then
+  export PATH=$PATH:/usr/local/go/bin
+fi
+
+# direnv
+if command -v direnv &> /dev/null; then
   eval "$(direnv hook zsh)"
 fi
 
-if $(command -v rbenv > /dev/null 2>&1);then
-  eval "$(rbenv init -)"
+# rbenv
+if command -v rbenv &> /dev/null; then
   export PATH="$HOME/.rbenv/bin:$PATH"
+  eval "$(rbenv init -)"
+elif [ -d "$HOME/.rbenv" ]; then
+  export PATH="$HOME/.rbenv/bin:$PATH"
+  eval "$(rbenv init -)"
 fi
 
-if $(command -v nodenv > /dev/null 2>&1);then
+# nodenv
+if command -v nodenv &> /dev/null; then
+  export PATH="$HOME/.nodenv/bin:$PATH"
+  eval "$(nodenv init -)"
+elif [ -d "$HOME/.nodenv" ]; then
   export PATH="$HOME/.nodenv/bin:$PATH"
   eval "$(nodenv init -)"
 fi
 
-export PATH=/Applications/Postgres.app/Contents/Versions/latest/bin:$PATH
+# Postgres.app
+if [ -d "/Applications/Postgres.app/Contents/Versions/latest/bin" ]; then
+  export PATH=/Applications/Postgres.app/Contents/Versions/latest/bin:$PATH
+fi
 
-export ANDROID_HOME=${HOME}/Library/Android/sdk
-export PATH=${PATH}:${ANDROID_HOME}/tools
-export PATH=${PATH}:${ANDROID_HOME}/platform-tools
+# Android SDK
+if [ -d "${HOME}/Library/Android/sdk" ]; then
+  export ANDROID_HOME=${HOME}/Library/Android/sdk
+  export PATH=${PATH}:${ANDROID_HOME}/tools
+  export PATH=${PATH}:${ANDROID_HOME}/platform-tools
+fi
 
 # perl: warning: Setting locale failed.を回避するためにLANGを設定する。
 export LANG=ja_JP.UTF-8
@@ -86,7 +109,22 @@ function history-peco() {
   print -z `history 1 | sed 's/^ *[0-9]* *//' | peco`
 }
 
-if command -v exa &> /dev/null; then
+#=============================================================================
+# Modern CLI Tools Aliases
+#=============================================================================
+
+# exa (modern ls replacement) - already configured in .zshrc with cdls
+# Kept here for direct ls usage
+if command -v eza &> /dev/null; then
+  alias ls='eza --icons'
+  alias l='eza -l --all --group-directories-first --git --icons'
+  alias ll='eza -l --all --all --group-directories-first --git --icons'
+  alias la='eza -la --group-directories-first --git --icons'
+  alias lt='eza -T --git-ignore --level=2 --group-directories-first --icons'
+  alias llt='eza -lT --git-ignore --level=2 --group-directories-first --icons'
+  alias lT='eza -T --git-ignore --level=4 --group-directories-first --icons'
+  alias tree='eza -T --icons'
+elif command -v exa &> /dev/null; then
   alias ls='exa'
   alias l='exa -l --all --group-directories-first --git'
   alias ll='exa -l --all --all --group-directories-first --git'
@@ -97,6 +135,42 @@ else
   alias l='ls -lah'
   alias ll='ls -alF'
   alias la='ls -A'
+fi
+
+# bat (modern cat with syntax highlighting)
+if command -v bat &> /dev/null; then
+  alias cat='bat --style=auto'
+  alias bathelp='bat --plain --language=help'
+  help() {
+    "$@" --help 2>&1 | bathelp
+  }
+fi
+
+# fd (modern find)
+if command -v fd &> /dev/null; then
+  alias find='fd'
+fi
+
+# ripgrep (modern grep)
+if command -v rg &> /dev/null; then
+  alias grep='rg'
+fi
+
+# delta (modern diff for git)
+if command -v delta &> /dev/null; then
+  export GIT_PAGER='delta'
+fi
+
+# Modern du alternative
+if command -v dust &> /dev/null; then
+  alias du='dust'
+fi
+
+# Modern top alternative
+if command -v btop &> /dev/null; then
+  alias top='btop'
+elif command -v htop &> /dev/null; then
+  alias top='htop'
 fi
 
 # rails系のalias
@@ -145,11 +219,26 @@ alias dcup='docker-compose up'
 
 # alias python='docker run -it -v `pwd`/:/src -w /src -e PYTHONPATH="/src/.pip" python python'
 # alias 'pip-install'='docker run -it -v `pwd`/:/src -w /src python pip install --target=/src/.pip'
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
 
-export PATH="$HOME/.cargo/bin:$PATH"
+# pyenv
+if command -v pyenv &> /dev/null; then
+  export PYENV_ROOT="$HOME/.pyenv"
+  export PATH="$PYENV_ROOT/bin:$PATH"
+  eval "$(pyenv init -)"
+elif [ -d "$HOME/.pyenv" ]; then
+  export PYENV_ROOT="$HOME/.pyenv"
+  export PATH="$PYENV_ROOT/bin:$PATH"
+  eval "$(pyenv init -)"
+fi
+
+# Rust/Cargo
+if [ -d "$HOME/.cargo/bin" ]; then
+  export PATH="$HOME/.cargo/bin:$PATH"
+fi
 
 export TERM='xterm-256color'
-export PATH="$PATH:`yarn global bin`"
+
+# Yarn global bin
+if command -v yarn &> /dev/null; then
+  export PATH="$PATH:$(yarn global bin)"
+fi
