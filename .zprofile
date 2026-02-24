@@ -284,3 +284,19 @@ fi
 
 # Load custom aliases
 [ -f ~/.zsh_aliases ] && source ~/.zsh_aliases
+
+# ==========================================
+# SDKMAN! (Must be loaded AFTER aliases)
+# ==========================================
+# fd などの alias が設定された後に読み込むとエラーになるため、
+# 一時的に alias を解除して読み込みます
+alias find_bak=$(alias find 2>/dev/null)
+unalias find 2>/dev/null
+
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+
+# 読み込みが終わったら find の alias を元に戻す
+[[ -n "$find_bak" ]] && eval "$find_bak"
+unset find_bak
+

@@ -7,7 +7,7 @@
   email = suenagaryoutaabc@gmail.com
 
 [core]
-  editor = /usr/local/bin/vim
+  editor = /usr/bin/vim
   pager = delta  # Modern diff viewer (fallback to less if not installed)
   autocrlf = input
   whitespace = trailing-space,space-before-tab

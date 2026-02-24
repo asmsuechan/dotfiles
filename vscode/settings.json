@@ -44,7 +44,9 @@
   "files.watcherExclude": {
     "**/.git/objects/**": true,
     "**/node_modules/**": true,
-    "**/.next/**": true
+    "**/.next/**": true,
+    "**/.bloop": true,
+    "**/.metals": true
   },
 
   // ===============================================
@@ -171,12 +173,7 @@
   "prettier.printWidth": 100,
 
   // ESLint
-  "eslint.validate": [
-    "javascript",
-    "javascriptreact",
-    "typescript",
-    "typescriptreact"
-  ],
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
   "eslint.format.enable": true,
 
   // GitLens
@@ -186,6 +183,9 @@
   // Vim (if using VSCode Vim extension)
   "vim.useSystemClipboard": true,
   "vim.hlsearch": true,
+  "vim.handleKeys": {
+    "<C-r>": true
+  },
   "vim.insertModeKeyBindings": [
     {
       "before": ["j", "j"],
@@ -209,5 +209,6 @@
   // ===============================================
   // Security
   // ===============================================
-  "security.workspace.trust.enabled": true
+  "security.workspace.trust.enabled": true,
+  "docker.extension.enableComposeLanguageServer": false
 }

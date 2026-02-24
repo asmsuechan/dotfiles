@@ -42,8 +42,8 @@ zplug "zsh-users/zsh-autosuggestions"
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=240'
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 
-# Enhanced cd (enhancd)
-zplug "b4b4r07/enhancd", use:init.sh
+# Enhanced cd (enhancd) - Disabled to fix compatibility issues
+# zplug "b4b4r07/enhancd", use:init.sh
 
 # fzf integration
 zplug "junegunn/fzf", use:"shell/*.zsh", defer:2
@@ -239,20 +239,22 @@ esac
 # added by travis gem
 [ -f $HOME/.travis/travis.sh ] && source $HOME/.travis/travis.sh
 
-# 読み込み順番の問題で色がつかなかったので.zprofileから移動
-# cdしたら自動的にlsを実行
-function cdls () {
-  \cd "$@" && {
+#=============================================================================
+# Auto ls after cd - Using chpwd hook (works with enhancd)
+#=============================================================================
+# chpwd is called automatically after changing directory
+function chpwd() {
+  # Only run ls if we're in an interactive terminal
+  if [[ -o interactive ]]; then
     if command -v eza >/dev/null 2>&1; then
-      eza -l --all --group-directories-first --git --icons
+      eza --icons
     elif command -v exa >/dev/null 2>&1; then
-      exa -l --all --group-directories-first --git
+      exa
     else
-      ls -lah
+      ls
     fi
-  }
+  fi
 }
-alias cd='cdls'
 
 # Override auto-title when static titles are desired ($ title My new title)
 title() { export TITLE_OVERRIDDEN=1; echo -en "\e]0;$*\a"}
@@ -285,3 +287,7 @@ preexec() {
 
 # Note: .zprofile is automatically loaded by zsh before .zshrc
 # No need to source it again here
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/Users/ryota.suenaga/.sdkman"
+[[ -s "/Users/ryota.suenaga/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/ryota.suenaga/.sdkman/bin/sdkman-init.sh"
